@@ -1,21 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import React, { useState } from 'react'
+import { View, StyleSheet } from 'react-native'
+import MainActivity from './Components/MainActivity'
+import { Task } from './types/Task'
 
 export default function App() {
+  const [ActiveTask, setActiveTask] = useState<Task>()
+
+  // useEffect(() => {}, [])
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <View style={style.app}>
+      <MainActivity />
+      {/* <TaskSelector /> */}
       <StatusBar style="auto" />
     </View>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
+const style = StyleSheet.create({
+  app: {
+    backgroundColor: '#bdf',
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-});
+})
