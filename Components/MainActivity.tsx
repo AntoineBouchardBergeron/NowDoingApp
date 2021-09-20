@@ -16,10 +16,14 @@ const MainActivity = () => {
   const styleApp: ViewStyle = {
     backgroundColor: colors.background,
     flex: 1,
+    flexWrap: 'wrap',
+    flexGrow: 10,
     alignItems: 'center',
     alignSelf: 'center',
+    alignContent: 'center',
     justifyContent: 'center',
     width: '100%',
+
   }
 
   function togglePause() {
@@ -70,6 +74,7 @@ const MainActivity = () => {
         isPaused={isTimerPaused}
         onPauseEvent={togglePause}
       />
+      <ThemeSwitch />
       <ActiveTimer
         estimatedTime={activeTask.estimatedTime}
         timePassedDoingTask={activeTask.timePassed}
@@ -79,7 +84,7 @@ const MainActivity = () => {
         onTimerExpired={timerHasExpiredAlert}
       />
 
-      <ThemeSwitch  />
+      {/* <ThemeSwitch /> */}
       {/* <TaskPanelEditor /> */}
     </View>
   )

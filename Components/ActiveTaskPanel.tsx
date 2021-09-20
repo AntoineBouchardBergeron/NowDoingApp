@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, ViewStyle } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, Text } from 'react-native'
 import { Task } from '../Types/Task'
-import ClockTime from './ClockTime'
 import PauseButton from './PauseButton'
 import { useTheme } from './ThemeProvider'
 
@@ -24,11 +23,6 @@ const ActiveTaskPanel = (props: Props) => {
   }
 
   const style = StyleSheet.create({
-    // ActiveTaskPanel: {
-    //   // backgroundColor: '#333',
-    //   borderRadius: 10,
-    //   padding: 10,
-    // },
     title: {
       color: colors.text,
       padding: 2,

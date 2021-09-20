@@ -43,29 +43,28 @@ const ActiveTimer = (props: Props) => {
   }, [props.toggle, countdownAmount.current])
 
   return (
-    <>
+    <View style={style.Timer}>
       <Clock
         representedTime={tickDown()}
         timeRepresentation={props.clockRepresentation.value}
         clockBackgroundColor={useTheme().colors.background}
+        clockColor={useTheme().colors.clockColors}
       />
-      <>
-        {/* <ClockTime time={tickDown()} /> */}
+      <View style={style.taskComplete}>
         <Button title="TaskCompleted" onPress={props.onTaskComplete} />
-      </>
-    </>
+      </View>
+    </View>
   )
 }
 
 const style = StyleSheet.create({
   Timer: {
     padding: 10,
-    marginBottom: 10,
+    marginTop: 10,
   },
   taskComplete: {
-    padding: '2%',
-    left: '50%',
-    width: '50%',
+    marginTop: 4,
+    flexDirection: 'row-reverse',
   },
 })
 

@@ -7,22 +7,23 @@ type Props = {
   representedTime: Time
   timeRepresentation: number
   clockBackgroundColor: string
+  clockColor: string[]
 }
 
-
 const TimeConfiguration: number[] = [900, 3600, 14400]
-const ColorConfiguration: string[] = ['#f08080', '#ffa07a', '#ff7f50']
 
 const getTotalTime = (index: number) => {
   if (index < 0 || index > TimeConfiguration.length)
-    return TimeConfiguration[DesiredTimeRepresentation.defaultTimeConfigurationValue]
+    return TimeConfiguration[
+      DesiredTimeRepresentation.defaultTimeConfigurationValue
+    ]
   return TimeConfiguration[index]
 }
 
-const getColorConfiguration = (index: number) => {
-  if (index < 0 || index > ColorConfiguration.length)
-    return ColorConfiguration[DesiredTimeRepresentation.defaultTimeConfigurationValue]
-  return ColorConfiguration[index]
+const getColorConfiguration = (clockColor: string[], index: number) => {
+  if (index < 0 || index > clockColor.length)
+    return clockColor[DesiredTimeRepresentation.defaultTimeConfigurationValue]
+  return clockColor[index]
 }
 
 const getRadius = () => {
@@ -30,10 +31,6 @@ const getRadius = () => {
   const height = useWindowDimensions().height
   const min = Math.min(width, height)
   return min * 0.8
-}
-
-const getTransform = (position: number) => {
-  return transforms[position]
 }
 
 const transforms = [
@@ -47,15 +44,19 @@ const transforms = [
   [{ scaleX: 1 }],
 ]
 
-const Clock = (props: Props) => {
-  // TODO: Check props.timeRepresenation < props.representedTime.seconds
+const getTransform = (position: number) => {
+  return transforms[position]
+}
 
+const Clock = (props: Props) => {
   const [radius, setRadius] = useState<number>(getRadius())
   const [clockColour, setClockColour] = useState<string>(
-    getColorConfiguration(props.timeRepresentation)
+    getColorConfiguration(props.clockColor, props.timeRepresentation)
   )
   const [activeTransform, setActiveTransform] = useState(getTransform(0))
-  const [bRightColor, setbRightColor] = useState<string>(props.clockBackgroundColor)
+  const [bRightColor, setbRightColor] = useState<string>(
+    props.clockBackgroundColor
+  )
   const [bBottomColor, setbBottomColor] = useState<string>('transparent')
   const [bottom, setBottom] = useState<string>('200%')
   const [left, setLeft] = useState<string>('50%')
@@ -75,7 +76,7 @@ const Clock = (props: Props) => {
       )
     })
     setClockColour((color) => {
-      return getColorConfiguration(props.timeRepresentation)
+      return getColorConfiguration(props.clockColor, props.timeRepresentation)
     })
     setbRightColor((color) => {
       return Math.trunc(
@@ -126,7 +127,15 @@ const Clock = (props: Props) => {
 
   const style = StyleSheet.create({
     clock: {
+      // justifyContent: 'center',
+      alignContent: 'center',
       backgroundColor: clockColour,
+      height: radius,
+      width: radius,
+      borderRadius: radius / 2,
+    },
+    clooock: {
+      backgroundColor: '#654',
       height: radius,
       width: radius,
       borderRadius: radius / 2,
@@ -197,6 +206,7 @@ const Clock = (props: Props) => {
   })
 
   return (
+    // <View style={style.clooock}>
     <View style={style.clock}>
       <View style={style.firstQuadrant} />
       <View style={style.secondQuadrant} />
@@ -204,6 +214,7 @@ const Clock = (props: Props) => {
       <View style={style.forthQuadrant} />
       <View style={style.Triangle} />
     </View>
+    // </View>
   )
 }
 
