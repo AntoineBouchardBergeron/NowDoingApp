@@ -1,4 +1,5 @@
 import { Time } from '../Classes/Time'
+import { DesiredTimeRepresentation } from '../Classes/DesiredTimeRepresentation'
 
 export type Task = {
   id: number
@@ -8,4 +9,5 @@ export type Task = {
   estimatedTime: Time
   updateQuantity: number // To Rename (responsible for counting how many times the estimatedTime is updated)
   timePassed: Time
+  desiredRepresentation: DesiredTimeRepresentation
 }
