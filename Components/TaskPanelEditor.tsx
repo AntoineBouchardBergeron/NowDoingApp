@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, View, StyleSheet, TextInput, Text } from 'react-native'
+import { Button, View, StyleSheet, Text } from 'react-native'
 import TaskList from './TaskList'
 import { SAMPLE_TASKS } from '../types/TaskList'
 import ThemeSwitch from '../theme/ThemeSwitch'
@@ -7,6 +7,7 @@ import { useTheme } from './ThemeProvider'
 import i18n from 'i18n-js'
 import { en, fr } from '../i18n/translation'
 import * as localization from 'expo-localization'
+import TextInput from './TextInput'
 
 type Props = {
   onHideEvent: () => void
@@ -19,14 +20,11 @@ const TaskPanelEditor = (props: Props) => {
 
   const { colors } = useTheme()
 
-
   const onHideEventButton = () => {
     props.onHideEvent()
   }
 
-  const getFocusedColor = () => {
-    
-  }
+  const getFocusedColor = () => {}
 
   const style = StyleSheet.create({
     onTopPanel: {
@@ -43,15 +41,7 @@ const TaskPanelEditor = (props: Props) => {
       color: colors.text,
       padding: 5,
     },
-    InputColor: {
-      color: colors.text,
-      margin: 2,
-      padding: 3,
-      borderWidth: 2,
-      borderColor: colors.textInputBackground,
-      flexGrow: 1,
-      borderRadius: 2,
-    },
+
     ViewRow: {
       flexDirection: 'row',
       width: '100%',
@@ -61,15 +51,25 @@ const TaskPanelEditor = (props: Props) => {
     },
   })
 
+  const sendInformation = () => {}
+
   return (
     <View style={style.onTopPanel}>
       <View style={style.ViewRow}>
-        <Text style={style.TextColor}>{i18n.t('TitleLabel')}</Text>
-        <TextInput style={style.InputColor}></TextInput>
+        <Text style={style.TextColor}>{'hi'}</Text>
+        <TextInput
+          defaultValue={i18n.t('TitleLabel')}
+          isOneLine={true}
+          onTextChangeEvent={sendInformation}
+        />
       </View>
       <View style={style.ViewRow}>
         <Text style={style.TextColor}>{i18n.t('DescriptionLabel')}</Text>
-        <TextInput value={i18n.t('DescriptionLabel')} style={style.InputColor} ></TextInput>
+        <TextInput
+          defaultValue={i18n.t('DescriptionLabel')}
+          isOneLine={true}
+          onTextChangeEvent={sendInformation}
+        />
       </View>
       <ThemeSwitch />
       <Button title={'Close'} onPress={onHideEventButton} />

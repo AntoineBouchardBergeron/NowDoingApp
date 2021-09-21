@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, TextInput as RNTextInput } from 'react-native'
+import React, { useState } from 'react'
+import { View, TextInput as RNTextInput, StyleSheet } from 'react-native'
 import { useTheme } from './ThemeProvider'
 
 type Props = {
@@ -9,14 +9,33 @@ type Props = {
 }
 
 const TextInput = (props: Props) => {
+  const [text, setText] = useState<string>(props.defaultValue)
   const { colors } = useTheme()
-//   const ChangeFocusColor = (e:any) => {
-//       e.
-//   }
+  const ChangeFocusColor = (e: any) => {}
+
+  const style = StyleSheet.create({
+    InputColor: {
+      flex: 1,
+      flexDirection: 'row',
+      alignContent: 'stretch',
+      color: colors.text,
+      margin: 2,
+      padding: 3,
+      borderWidth: 2,
+      borderColor: colors.textInputBackground,
+      flexGrow: 1,
+      borderRadius: 2,
+    },
+  })
 
   return (
     <View>
-      <RNTextInput value={props.defaultValue} on={ChangeFocusColor} />
+      <RNTextInput
+        style={style.InputColor}
+        value={text}
+        clearTextOnFocus={true}
+        onChangeText={() => setText((value) => value)}
+      />
     </View>
   )
 }
