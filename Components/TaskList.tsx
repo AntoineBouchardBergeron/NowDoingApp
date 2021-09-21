@@ -12,7 +12,7 @@ const TaskList = (props: Props) => {
   const tasks: ReactNode[] = []
 
   props.tasks.tasks.forEach((task) => {
-    tasks.push(<TaskItem {...task} key={task.id} />)
+    tasks.push(<TaskItem task={task} key={task.id} />)
   })
 
   return <View>{tasks}</View>

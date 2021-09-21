@@ -17,7 +17,7 @@ const ThemeSwitch = () => {
 
   const style = StyleSheet.create({
     themeSwitch: {
-      backgroundColor: colors.background,
+      backgroundColor: 'transparent',
     },
     themeText: {
       color: colors.text,
@@ -47,7 +47,7 @@ const ThemeSwitch = () => {
         />
       </>
       <>
-        <Text style={style.themeText}>Use phone mode</Text>
+        <Text style={style.themeText}>Use device's settings</Text>
         <CheckBox
           value={isThemeDefault}
           onChange={toggleSwitchAvailability}

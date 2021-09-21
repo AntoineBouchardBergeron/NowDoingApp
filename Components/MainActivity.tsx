@@ -11,6 +11,7 @@ import ThemeSwitch from '../theme/ThemeSwitch'
 const MainActivity = () => {
   const [activeTask, setActiveTask] = useState<Task>(SAMPLE_TASK_ARRAY[0])
   const [isTimerPaused, setTimerPause] = useState<boolean>(true)
+  const [showTaskPanelEditor, setShowTaskPanelEditor] = useState<boolean>(false)
   const { colors } = useTheme()
 
   const styleApp: ViewStyle = {
@@ -23,7 +24,10 @@ const MainActivity = () => {
     alignContent: 'center',
     justifyContent: 'center',
     width: '100%',
+  }
 
+  function showTaskPanelEditorEvent() {
+    setShowTaskPanelEditor((b) => !b)
   }
 
   function togglePause() {
@@ -69,23 +73,28 @@ const MainActivity = () => {
 
   return (
     <View style={styleApp}>
-      <ActiveTaskPanel
-        activeTask={activeTask}
-        isPaused={isTimerPaused}
-        onPauseEvent={togglePause}
-      />
-      <ThemeSwitch />
-      <ActiveTimer
-        estimatedTime={activeTask.estimatedTime}
-        timePassedDoingTask={activeTask.timePassed}
-        toggle={isTimerPaused}
-        clockRepresentation={activeTask.desiredRepresentation}
-        onTaskComplete={completeActiveTask}
-        onTimerExpired={timerHasExpiredAlert}
-      />
-
+      {showTaskPanelEditor && (
+        <TaskPanelEditor onHideEvent={showTaskPanelEditorEvent} />
+      )}
+      {!showTaskPanelEditor && (
+        <ActiveTaskPanel
+          activeTask={activeTask}
+          isPaused={isTimerPaused}
+          onPauseEvent={togglePause}
+          onSelectTaskEvent={showTaskPanelEditorEvent}
+        />
+      )}
       {/* <ThemeSwitch /> */}
-      {/* <TaskPanelEditor /> */}
+      {!showTaskPanelEditor && (
+        <ActiveTimer
+          estimatedTime={activeTask.estimatedTime}
+          timePassedDoingTask={activeTask.timePassed}
+          toggle={isTimerPaused}
+          clockRepresentation={activeTask.desiredRepresentation}
+          onTaskComplete={completeActiveTask}
+          onTimerExpired={timerHasExpiredAlert}
+        />
+      )}
     </View>
   )
 }

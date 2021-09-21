@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Time } from '../Classes/Time'
 import { View, StyleSheet, Button } from 'react-native'
-import ClockTime from './ClockTime'
 import Clock from './Clock'
 import { DesiredTimeRepresentation } from '../Classes/DesiredTimeRepresentation'
 import { useTheme } from './ThemeProvider'

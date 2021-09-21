@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import { AppearanceProvider } from 'react-native-appearance'
 import MainActivity from './Components/MainActivity'
 import { ThemeProvider, useTheme } from './Components/ThemeProvider'
-import { Task } from './types/Task'
+import { Task } from './types/Task' 
 
 export default function App() {
   const [ActiveTask, setActiveTask] = useState<Task>()

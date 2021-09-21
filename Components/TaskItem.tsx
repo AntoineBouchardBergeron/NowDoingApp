@@ -2,15 +2,19 @@ import React, { useState } from 'react'
 import { Text } from 'react-native'
 import { Task } from '../Types/Task'
 
-const TaskItem = (props: Task) => {
+type Props = {
+  task: Task
+}
+
+const TaskItem = (props: Props) => {
   const [activeStatus, setActiveStatus] = useState<string | null>(null)
 
   const updateActiveStatus = (newStatus: string) => {
     setActiveStatus((activeStatus) => newStatus)
   }
 
-  const status = props.status
-  const description = props.description
+  const status = props.task.status
+  const description = props.task.description
 
   return (
     <Text>
