@@ -35,6 +35,7 @@ const TextInput = (props: Props) => {
         value={text}
         clearTextOnFocus={true}
         onChangeText={() => setText((value) => value)}
+        // onPressIn={()=>{console.log('hey')}}
       />
     </View>
   )
