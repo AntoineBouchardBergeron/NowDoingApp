@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Text, Switch, StyleSheet, View, Button } from 'react-native'
+import { Text, Switch, StyleSheet, View, ColorValue  } from 'react-native'
 import { useTheme } from '../Components/ThemeProvider'
 import CheckBox from '@react-native-community/checkbox'
+import { useActiveActivity } from '../Components/ActivityProvider'
+import styles from '../Style/Styles'
 
 const ThemeSwitch = () => {
   const { isDark, colors, setScheme } = useTheme()
+  const { id } = useActiveActivity()
   const [isThemeDefault, setThemeDefault] = useState<boolean>(false)
 
   const toggleSwitchAvailability = () => {
@@ -35,12 +38,16 @@ const ThemeSwitch = () => {
     },
   })
 
+  
+
   return (
     <View style={style.themeView}>
       <>
         <Text style={style.themeText}>Dark Mode</Text>
         <Switch
-          style={style.themeSwitch}
+          style={styles().Switch}
+          trackColor={{true:colors.trackColors[id-1], false: colors.trackColors[id-1]}}  
+          thumbColor={colors.clockColors[id-1]}
           value={isDark}
           onValueChange={ChangeTheme}
           disabled={isThemeDefault}
@@ -55,7 +62,7 @@ const ThemeSwitch = () => {
           onCheckColor={'#fff'}
           onFillColor={'#fff'}
           onTintColor={'#fff'}
-          tintColors={{true: colors.clockColors[0], false: colors.text}}
+          tintColors={{ true: colors.clockColors[id - 1], false: colors.text }}
         />
       </>
     </View>

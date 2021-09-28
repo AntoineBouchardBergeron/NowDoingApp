@@ -1,34 +1,39 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet } from 'react-native'
+import {  View } from 'react-native'
 import { AppearanceProvider } from 'react-native-appearance'
+import { ActivityProvider } from './Components/ActivityProvider'
 import MainActivity from './Components/MainActivity'
+import SettingPanel from './Components/SettingPanel'
 import { ThemeProvider, useTheme } from './Components/ThemeProvider'
-import { Task } from './types/Task' 
+import styles from './Style/Styles'
 
 export default function App() {
-  const [ActiveTask, setActiveTask] = useState<Task>()
-
   const { colors } = useTheme()
+  const [timerStarted, setTimerActive] = useState<boolean>(false)
 
   useEffect(() => {}, [colors])
 
-  const styles = StyleSheet.create({
-    app: {
-      flex: 1,
-      alignItems: 'center',
-      alignSelf: 'center',
-      justifyContent: 'center',
-      borderRadius: 10,
-      backgroundColor: colors.background,
-    },
-  })
+  const hideSettings = () => {
+    setTimerActive(true)
+  }
+  const showSettings = () => {
+    setTimerActive(false)
+  }
 
   return (
     <AppearanceProvider>
       <ThemeProvider>
-        <StatusBar animated hidden={true} />
-        <MainActivity />
+        <ActivityProvider>
+          <View style={styles().app}>
+            <StatusBar animated hidden={true} />
+            <MainActivity
+              onTimerStart={() => hideSettings()}
+              onTimerStop={() => showSettings()}
+            />
+            <SettingPanel isActive={!timerStarted} />
+          </View>
+        </ActivityProvider>
       </ThemeProvider>
     </AppearanceProvider>
   )

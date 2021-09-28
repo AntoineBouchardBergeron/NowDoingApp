@@ -1,97 +1,105 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, StyleSheet, View, ViewStyle } from 'react-native'
-import TaskPanelEditor from './TaskPanelEditor'
-import ActiveTaskPanel from './ActiveTaskPanel'
+import { Alert, View } from 'react-native'
+import ActiveActivityPanel from './ActiveActivityPanel'
 import ActiveTimer from './ActiveTimer'
-import { Task } from '../types/Task'
-import { SAMPLE_TASK_ARRAY } from '../types/TaskList'
-import { useTheme } from './ThemeProvider'
-import ThemeSwitch from '../theme/ThemeSwitch'
+import { useActiveActivity } from './ActivityProvider'
+import ActivitySelectionPanel from './ActivitySelectionPanel'
+import styles from '../Style/Styles'
+import { BasicActivity } from '../Types/Activity'
 
-const MainActivity = () => {
-  const [activeTask, setActiveTask] = useState<Task>(SAMPLE_TASK_ARRAY[0])
+type Props = {
+  onTimerStart?: () => void
+  onTimerStop?: () => void
+}
+
+const MainActivity = (props: Props) => {
+  const { title, estimatedTime, updateQuantity } = useActiveActivity()
   const [isTimerPaused, setTimerPause] = useState<boolean>(true)
-  const [showTaskPanelEditor, setShowTaskPanelEditor] = useState<boolean>(false)
-  const { colors } = useTheme()
 
-  const styleApp: ViewStyle = {
-    backgroundColor: colors.background,
-    flex: 1,
-    flexWrap: 'wrap',
-    flexGrow: 10,
-    alignItems: 'center',
-    alignSelf: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  }
+  const [showActivityPanelEditor, setShowActivityPanelEditor] =
+    useState<boolean>(false)
+  const { setActiveActivity } = useActiveActivity()
 
-  function showTaskPanelEditorEvent() {
-    setShowTaskPanelEditor((b) => !b)
+  function showActivityPanelEditorEvent() {
+    setShowActivityPanelEditor((b) => !b)
   }
 
   function togglePause() {
     setTimerPause((isTimerPaused) => !isTimerPaused)
   }
 
-  function completeActiveTask() {
+  function completeActiveActivity() {
+    setActiveActivity(BasicActivity)
     setTimerPause((isTimerPaused) => true)
-    Alert.alert('Completed task!')
-  }
-
-  useEffect(() => {
-    console.log(
-      activeTask.title +
-        '; ' +
-        activeTask.estimatedTime.seconds +
-        ' and time updated: ' +
-        activeTask.updateQuantity
-    )
-  }, [activeTask])
-
-  function timerHasExpiredAlert() {
-    setTimerPause((isTimerPaused) => true)
-    Alert.alert('Time Is Up', 'Do you need more time to complete the task?', [
+    Alert.alert('Is activity finished?', '',  [
       {
         text: 'Yes',
         onPress: () => {
-          console.log('More Time needed')
-          // activeTask.timePassed = activeTask.estimatedTime,
-          // activeTask.updateQuantity++
+          console.log('activity is finished!')
         },
       },
       {
         text: 'No',
         onPress: () => {
-          console.log('complete')
-          // activeTask.status = 'Completed'
-          // activeTask.timePassed = activeTask.estimatedTime
+          console.log('Darn, not done eh?')
         },
       },
     ])
   }
 
+  useEffect(() => {
+    console.log(
+      title +
+        '; ' +
+        estimatedTime.seconds +
+        ' and time updated: ' +
+        updateQuantity
+    )
+    if (!isTimerPaused && props.onTimerStart) {
+      props.onTimerStart()
+    } else if (props.onTimerStop) {
+      props.onTimerStop()
+    }
+  }, [isTimerPaused])
+
+  function timerHasExpiredAlert() {
+    setTimerPause((isTimerPaused) => true)
+    Alert.alert(
+      'Time Is Up',
+      'Do you need more time to complete the current activity?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+            console.log('More Time needed')
+          },
+        },
+        {
+          text: 'No',
+          onPress: () => {
+            console.log('complete')
+          },
+        },
+      ]
+    )
+  }
+
   return (
-    <View style={styleApp}>
-      {showTaskPanelEditor && (
-        <TaskPanelEditor onHideEvent={showTaskPanelEditorEvent} />
+    <View style={styles().mainActivity}>
+      {showActivityPanelEditor && (
+        <ActivitySelectionPanel onHideEvent={showActivityPanelEditorEvent} />
       )}
-      {!showTaskPanelEditor && (
-        <ActiveTaskPanel
-          activeTask={activeTask}
+      {!showActivityPanelEditor && (
+        <ActiveActivityPanel
           isPaused={isTimerPaused}
           onPauseEvent={togglePause}
-          onSelectTaskEvent={showTaskPanelEditorEvent}
+          onSelectActivityEvent={showActivityPanelEditorEvent}
+          onTimerStopped={completeActiveActivity}
         />
       )}
-      {/* <ThemeSwitch /> */}
-      {!showTaskPanelEditor && (
+      {!showActivityPanelEditor && (
         <ActiveTimer
-          estimatedTime={activeTask.estimatedTime}
-          timePassedDoingTask={activeTask.timePassed}
           toggle={isTimerPaused}
-          clockRepresentation={activeTask.desiredRepresentation}
-          onTaskComplete={completeActiveTask}
           onTimerExpired={timerHasExpiredAlert}
         />
       )}

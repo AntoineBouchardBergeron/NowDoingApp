@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Button } from 'react-native'
 import i18n from 'i18n-js'
 import { fr, en } from '../i18n/translation'
-import * as Localization from 'expo-localization';
+import * as Localization from 'expo-localization'
 
 type Props = {
   onPauseEvent: () => void
+  onTimerStopped: () => void
   isPaused: boolean
 }
 
@@ -18,6 +19,9 @@ const PauseButton = (props: Props) => {
 
   function TogglePause() {
     props.onPauseEvent()
+    if (isPaused) {
+      props.onTimerStopped()
+    }
   }
 
   useEffect(() => {

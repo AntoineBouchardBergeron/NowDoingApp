@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { View, TextInput as RNTextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput as RNTextInput, StyleSheet } from 'react-native'
 import { useTheme } from './ThemeProvider'
+import { useActiveActivity } from './ActivityProvider'
 
 type Props = {
   defaultValue: string
+  label: string
   isOneLine: boolean
   onTextChangeEvent: () => void
 }
@@ -11,31 +13,56 @@ type Props = {
 const TextInput = (props: Props) => {
   const [text, setText] = useState<string>(props.defaultValue)
   const { colors } = useTheme()
-  const ChangeFocusColor = (e: any) => {}
+
+  const { id } = useActiveActivity()
+  // const { activeClockRepresentation } = useClockRepresentation()
+
+  function updateText(input: string) {
+    setText((text) => input)
+  }
 
   const style = StyleSheet.create({
-    InputColor: {
+    ViewStyle: {
       flex: 1,
-      flexDirection: 'row',
-      alignContent: 'stretch',
-      color: colors.text,
-      margin: 2,
-      padding: 3,
-      borderWidth: 2,
-      borderColor: colors.textInputBackground,
       flexGrow: 1,
-      borderRadius: 2,
+      flexDirection: 'column',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+    },
+    InputStyle: {
+      width: '100%',
+      alignItems: 'flex-start',
+      color: colors.text,
+      marginBottom: 2,
+      padding: 3,
+      borderBottomWidth: 2,
+      borderColor: colors.textInputBackground,
+    },
+    LabelStyle: {
+      color: colors.clockColors[id - 1],
+      fontSize: 10,
     },
   })
 
   return (
-    <View>
+    <View style={style.ViewStyle}>
+      {props.label !== text && (
+        <Text style={style.LabelStyle}>{props.label}</Text>
+      )}
       <RNTextInput
-        style={style.InputColor}
+        style={style.InputStyle}
         value={text}
-        clearTextOnFocus={true}
-        onChangeText={() => setText((value) => value)}
-        // onPressIn={()=>{console.log('hey')}}
+        onFocus={() => {
+          if (text === props.defaultValue) {
+            setText((t) => '')
+          }
+        }}
+        onChangeText={(input) => {
+          setText((t) => input)
+        }}
+        selectTextOnFocus={true}
+        autoCorrect={false}
+        multiline={!props.isOneLine}
       />
     </View>
   )

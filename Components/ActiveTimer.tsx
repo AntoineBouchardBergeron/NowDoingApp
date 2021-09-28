@@ -1,29 +1,29 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Time } from '../Classes/Time'
-import { View, StyleSheet, Button } from 'react-native'
+import { View, Button } from 'react-native'
 import Clock from './Clock'
-import { DesiredTimeRepresentation } from '../Classes/DesiredTimeRepresentation'
 import { useTheme } from './ThemeProvider'
+import { useActiveActivity } from './ActivityProvider'
+import styles from '../Style/Styles'
 
 type Props = {
-  estimatedTime: Time
-  timePassedDoingTask: Time
   toggle: boolean
-  clockRepresentation: DesiredTimeRepresentation
-  onTaskComplete: () => void
+  // onActivityComplete: () => void
   onTimerExpired: () => void
 }
 
 //Active timer can tick too quick (everytime it is re-rendered, it starts a new timer, and does not delete the other one)
 
 const ActiveTimer = (props: Props) => {
+  const { timePassed, estimatedTime, desiredRepresentation } =
+    useActiveActivity()
   const countdownAmount = useRef<number>(0)
-  const [updateTaskTime, setUpdateTaskTime] = useState<Time>(
-    new Time(props.timePassedDoingTask.seconds)
+  const [updateActivityTime, setUpdateActivityTime] = useState<Time>(
+    new Time(timePassed.seconds)
   )
 
   function tickDown() {
-    return new Time(props.estimatedTime.seconds - updateTaskTime.seconds)
+    return new Time(estimatedTime.seconds - updateActivityTime.seconds)
   }
 
   useEffect(() => {
@@ -34,37 +34,26 @@ const ActiveTimer = (props: Props) => {
     }
     if (!props.toggle) {
       countdownAmount.current = window.setInterval(() => {
-        setUpdateTaskTime((updateTaskTime) => {
-          return updateTaskTime.tick()
+        setUpdateActivityTime((updateActivityTime) => {
+          return updateActivityTime.tick()
         })
       }, 1000)
     }
   }, [props.toggle, countdownAmount.current])
 
   return (
-    <View style={style.Timer}>
+    <View style={styles().ActivityPanel}>
       <Clock
         representedTime={tickDown()}
-        timeRepresentation={props.clockRepresentation.value}
-        clockBackgroundColor={useTheme().colors.background}
+        timeRepresentation={desiredRepresentation.value}
+        clockBackgroundColor={useTheme().colors.secondaryBackground}
         clockColor={useTheme().colors.clockColors}
       />
-      <View style={style.taskComplete}>
-        <Button title="TaskCompleted" onPress={props.onTaskComplete} />
-      </View>
+      {/* <View style={styles().ActivityComplete}>
+        <Button title="Activity Completed" onPress={props.onActivityComplete} />
+      </View> */}
     </View>
   )
 }
-
-const style = StyleSheet.create({
-  Timer: {
-    padding: 10,
-    marginTop: 10,
-  },
-  taskComplete: {
-    marginTop: 4,
-    flexDirection: 'row-reverse',
-  },
-})
 
 export default ActiveTimer

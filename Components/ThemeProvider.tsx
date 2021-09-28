@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useColorScheme } from 'react-native-appearance'
-import { ligthTheme, darkTheme, Colors } from '../theme/ColorTheme'
+import { ligthTheme, darkTheme, Colors } from '../Theme/ColorTheme'
 
 export interface Theme {
   isDark: boolean
@@ -16,6 +16,7 @@ export const ThemeContext = React.createContext<Theme>({
 
 export const ThemeProvider: React.FC<{}> = (props) => {
   const colorTheme = useColorScheme()
+  /// I wonder, do we setup device's input here, so that it know, dark mode from phone settings
 
   const [isDark, setTheme] = useState<boolean>(colorTheme === 'dark')
 
