@@ -6,6 +6,7 @@ import { useTheme } from "./ThemeProvider";
 import Menu from "../assets/menu.svg";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { translate } from "i18n-js";
+import { useActiveActivity } from "./ActivityProvider";
 
 type Props = {
   children: ReactNode;
@@ -54,8 +55,8 @@ const SlidePanel = (props: Props) => {
         width="40"
         height="40"
         viewBox="0 0 25 25"
-        fill={colors.primary}
-        stroke={colors.primary}
+        fill={colors.clockColors[useActiveActivity().id-1]}
+        stroke={colors.clockColors[useActiveActivity().id-1]}
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -85,7 +86,7 @@ const SlidePanel = (props: Props) => {
       <ScrollView style={styles().slidingPanel}>
         <Pressable 
         style={{
-          transform:[{ translateX: 250 }]}}
+          transform:[{ translateX: 260 }]}}
           onPress={() => {
             setAnimate((isAnimating) => !isAnimating);
           }}

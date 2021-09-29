@@ -14,7 +14,7 @@ export interface Activity {
 
 
 export const BasicActivity: Activity = {
-  id: 999998874,
+  id: 1,
   description: 'This is a basic Activity that will never be completed.\nUse to your own discretion. :)',
   desiredRepresentation: new DesiredTimeRepresentation(1),
   estimatedTime: new Time(10),

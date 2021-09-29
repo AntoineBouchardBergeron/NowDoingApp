@@ -48,7 +48,7 @@ const SettingPanel = (props: Props) => {
         }
       }
     >
-      <SlidePanel panelWidth={250}>
+      <SlidePanel panelWidth={260}>
         <ThemeSwitch />
         {/* <StatsPanel />
           <UserAccountSettings />

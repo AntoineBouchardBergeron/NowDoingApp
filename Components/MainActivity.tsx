@@ -4,6 +4,7 @@ import ActiveActivityPanel from "./ActiveActivityPanel";
 import ActiveTimer from "./ActiveTimer";
 import { useActiveActivity } from "./ActivityProvider";
 import ActivitySelectionPanel from "./ActivitySelectionPanel";
+import ActivityPanelEditor from "./ActivityPanelEditor";
 import styles from "../Style/Styles";
 import { BasicActivity } from "../Types/Activity";
 import i18n from "i18n-js";
@@ -23,6 +24,10 @@ const MainActivity = (props: Props) => {
   const [showActivityPanelEditor, setShowActivityPanelEditor] =
     useState<boolean>(false);
 
+  i18n.fallbacks = true;
+  i18n.translations = { fr, en };
+  i18n.locale = Localization.locale;
+
   function showActivityPanelEditorEvent() {
     setShowActivityPanelEditor((b) => !b);
   }
@@ -30,10 +35,6 @@ const MainActivity = (props: Props) => {
   function togglePause() {
     setTimerPause((isTimerPaused) => !isTimerPaused);
   }
-
-  i18n.fallbacks = true;
-  i18n.translations = { fr, en };
-  i18n.locale = Localization.locale;
 
   function completeActiveActivity() {
     setTimerPause((isTimerPaused) => true);
@@ -53,21 +54,6 @@ const MainActivity = (props: Props) => {
       },
     ]);
   }
-
-  useEffect(() => {
-    console.log(
-      title +
-        "; " +
-        estimatedTime.seconds +
-        " and time updated: " +
-        updateQuantity
-    );
-    if (!isTimerPaused && props.onTimerStart) {
-      props.onTimerStart();
-    } else if (props.onTimerStop) {
-      props.onTimerStop();
-    }
-  }, [isTimerPaused]);
 
   function timerHasExpiredAlert() {
     setTimerPause((isTimerPaused) => true);
@@ -91,26 +77,44 @@ const MainActivity = (props: Props) => {
     );
   }
 
+  useEffect(() => {
+    console.log(
+      title +
+        "; " +
+        estimatedTime.seconds +
+        " and time updated: " +
+        updateQuantity
+    );
+    if (!isTimerPaused && props.onTimerStart) {
+      props.onTimerStart();
+    } else if (props.onTimerStop) {
+      props.onTimerStop();
+    }
+  }, [isTimerPaused]);
+
   return (
-    <View style={styles().mainActivity}>
+    <>
+      <View style={styles().mainActivity}>
+        {!showActivityPanelEditor && (
+          <ActiveActivityPanel
+            isPaused={isTimerPaused}
+            onPauseEvent={togglePause}
+            onSelectActivityEvent={showActivityPanelEditorEvent}
+            onTimerStopped={completeActiveActivity}
+          />
+        )}
+        {!showActivityPanelEditor && (
+          <ActiveTimer
+            toggle={isTimerPaused}
+            onTimerExpired={timerHasExpiredAlert}
+          />
+        )}
+      </View>
+
       {showActivityPanelEditor && (
         <ActivitySelectionPanel onHideEvent={showActivityPanelEditorEvent} />
       )}
-      {!showActivityPanelEditor && (
-        <ActiveActivityPanel
-          isPaused={isTimerPaused}
-          onPauseEvent={togglePause}
-          onSelectActivityEvent={showActivityPanelEditorEvent}
-          onTimerStopped={completeActiveActivity}
-        />
-      )}
-      {!showActivityPanelEditor && (
-        <ActiveTimer
-          toggle={isTimerPaused}
-          onTimerExpired={timerHasExpiredAlert}
-        />
-      )}
-    </View>
+    </>
   );
 };
 

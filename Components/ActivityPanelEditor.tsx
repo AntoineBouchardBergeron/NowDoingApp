@@ -19,10 +19,6 @@ const TaskPanelEditor = (props: Props) => {
 
   const { title, description } = useActiveActivity();
 
-  const onHideEventButton = () => {
-    props.onHideEvent();
-  };
-
   const sendInformation = () => {};
 
   return (
@@ -45,7 +41,7 @@ const TaskPanelEditor = (props: Props) => {
           onTextChangeEvent={sendInformation}
         />
       </View>
-      <Button title={"Close"} onPress={onHideEventButton} />
+      <Button title={"Close"} onPress={() => props.onHideEvent()} />
     </View>
   );
 };

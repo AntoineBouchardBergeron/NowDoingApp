@@ -1,39 +1,37 @@
-import { StyleSheet, useWindowDimensions } from 'react-native'
-import { useTheme } from '../Components/ThemeProvider'
+import { StyleSheet, useWindowDimensions } from "react-native";
+import { useTheme } from "../Components/ThemeProvider";
 
 const styles = () => {
-  const { colors } = useTheme()
+  const { colors } = useTheme();
   return StyleSheet.create({
     app: {
-      alignContent: 'center',
-      alignSelf: 'center',
+      alignContent: "center",
+      alignSelf: "center",
       flex: 1,
-      // flexDirection: 'row',
-      // // flexWrap: 'wrap',
       backgroundColor: colors.background,
       width: useWindowDimensions().width,
       height: useWindowDimensions().height,
     },
     mainActivity: {
-      position: 'absolute',
+      position: "absolute",
       backgroundColor: colors.background,
       flex: 1,
-      flexDirection: 'column',
-      flexWrap: 'wrap',
-      justifyContent: 'space-evenly',
-      alignContent: 'space-around',
-      width: '100%',
-      height: '100%',
+      flexDirection: "column",
+      flexWrap: "wrap",
+      justifyContent: "space-evenly",
+      alignContent: "space-around",
+      width: "100%",
+      height: "100%",
       // paddingTop: 20,
     },
     ActivityPanel: {
       backgroundColor: colors.secondaryBackground,
       borderRadius: 10,
       padding: 10,
-      alignContent: 'stretch',
-      alignSelf: 'stretch',
-      alignItems: 'center',
-      width: '100%',
+      alignContent: "stretch",
+      alignSelf: "stretch",
+      alignItems: "center",
+      width: "100%",
       maxWidth: 300,
       // flexDirection: `row`,
       // flex: 1,
@@ -43,6 +41,16 @@ const styles = () => {
       padding: 2,
       margin: 2,
       fontSize: 22,
+      alignContent: "center",
+      alignSelf: "center",
+    },
+    titleTextView: {
+      color: colors.text,
+      padding: 12,
+      margin: 2,
+      fontSize: 22,
+      alignContent: "center",
+      alignSelf: "center",
     },
     basicText: {
       color: colors.text,
@@ -72,54 +80,66 @@ const styles = () => {
     ActivityComplete: {
       marginTop: 4,
       // flex: 1,
-      left: '20%',
+      left: "20%",
       // width: '50%',
       // flexDirection: 'row-reverse',
     },
     onTopPanel: {
-      backgroundColor: colors.secondaryBackground,
-      borderRadius: 10,
-      padding: 10,
-      width: '90%',
-      height: '90%',
-      alignSelf: 'center',
-      opacity: 0.98,
+      // backgroundColor: colors.secondaryBackground,
+      // borderRadius: 10,
+      // padding: 10,
+      position: "absolute",
+      margin: 15,
+      width: "100%",
+      height: "100%",
+      alignSelf: "center",
+      justifyContent: "center",
+      opacity: 1,
     },
     ViewRow: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      width: '100%',
-      alignContent: 'center',
-      alignItems: 'center',
-      alignSelf: 'center',
+      flexDirection: "row",
+      flexWrap: "wrap",
+      width: "100%",
+      alignContent: "center",
+      alignItems: "center",
+      alignSelf: "center",
+      justifyContent: "center",
     },
     ViewColumn: {
-      flexDirection: 'row',
-      flexWrap: 'nowrap',
-      alignContent: 'space-between',
-      justifyContent: 'space-evenly',
-      alignSelf: 'stretch',
-      width:'100%',
+      flexDirection: "row",
+      flexWrap: "nowrap",
+      alignContent: "space-between",
+      justifyContent: "space-evenly",
+      alignSelf: "stretch",
+      width: "100%",
     },
     Switch: {
-      backgroundColor: 'transparent',
+      backgroundColor: "transparent",
     },
     scrollView: {
       backgroundColor: colors.secondaryBackground,
+      borderRadius: 30,
     },
     settingsPanel: {
       flex: 1,
       elevation: 5,
       zIndex: 1,
-      backgroundColor: '#000',
+      backgroundColor: "#000",
     },
     slidingPanel: {
       // position: 'absolute',
       backgroundColor: colors.backdrop,
-      elevation: 1,
+      elevation: 3,
       width: 300,
     },
-  })
-}
+    ActivityPreview: {
+      borderRadius: 10,
+      width: "100%",
+      alignSelf: "stretch",
+      justifyContent: "center",
+      backgroundColor: colors.tertiaryBackground,
+    },
+  });
+};
 
-export default styles
+export default styles;

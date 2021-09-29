@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, Button, SafeAreaView, ScrollView } from "react-native";
 import {
   SAMPLE_ACTIVITIES,
@@ -30,18 +30,17 @@ const ActivitySelectionPanel = (props: Props) => {
 
   return (
     <View style={styles().onTopPanel}>
-      {!updatePanel && (
-        <SafeAreaView>
+      <Text style={styles().title}>{i18n.t("SelectActivity")}</Text>
+      <SafeAreaView>
+        {!updatePanel && (
           <ScrollView style={styles().scrollView}>
-            <Text style={styles().title}></Text>
             <ActivityList
               activities={SAMPLE_ACTIVITIES}
               onSelection={changeSelection}
             />
-
             <Button
               title={i18n.t("ModifyActivity")}
-              onPress={() => showUpdatePanel((b) => !b)}
+              onPress={() => showUpdatePanel((updatePanel) => !updatePanel)}
             />
             <ActivityPreview />
             <Button
@@ -49,11 +48,13 @@ const ActivitySelectionPanel = (props: Props) => {
               onPress={() => props.onHideEvent()}
             />
           </ScrollView>
-        </SafeAreaView>
-      )}
-      {updatePanel && (
-        <ActivityPanelEditor onHideEvent={() => showUpdatePanel((b) => !b)} />
-      )}
+        )}
+        {updatePanel && (
+          <ActivityPanelEditor
+            onHideEvent={() => showUpdatePanel((updatePanel) => !updatePanel)}
+          />
+        )}
+      </SafeAreaView>
     </View>
   );
 };
