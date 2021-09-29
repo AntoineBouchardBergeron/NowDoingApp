@@ -127,15 +127,8 @@ const Clock = (props: Props) => {
 
   const style = StyleSheet.create({
     clock: {
-      // justifyContent: 'center',
       alignContent: 'center',
       backgroundColor: clockColour,
-      height: radius,
-      width: radius,
-      borderRadius: radius / 2,
-    },
-    clooock: {
-      backgroundColor: '#654',
       height: radius,
       width: radius,
       borderRadius: radius / 2,
@@ -206,7 +199,6 @@ const Clock = (props: Props) => {
   })
 
   return (
-    // <View style={style.clooock}>
     <View style={style.clock}>
       <View style={style.firstQuadrant} />
       <View style={style.secondQuadrant} />
@@ -214,7 +206,6 @@ const Clock = (props: Props) => {
       <View style={style.forthQuadrant} />
       <View style={style.Triangle} />
     </View>
-    // </View>
   )
 }
 

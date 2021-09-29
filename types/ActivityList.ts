@@ -7,7 +7,7 @@ const Activity1: Activity = {
   status: 'Next up',
   title: 'Allow 15m, 1hr, 4hrs clocks',
   description:
-    'Allow the user to use different timed clock,\nAdd verification for maximum input (and override),\nand trigger alerts when timer reaches 0',
+    'Allow the user to use different timed clock, Add verification for maximum input (and override), and trigger alerts when timer reaches 0',
   estimatedTime: new Time(600),
   timePassed: new Time(5),
   updateQuantity: 0,

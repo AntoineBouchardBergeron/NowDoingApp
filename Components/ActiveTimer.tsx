@@ -49,9 +49,6 @@ const ActiveTimer = (props: Props) => {
         clockBackgroundColor={useTheme().colors.secondaryBackground}
         clockColor={useTheme().colors.clockColors}
       />
-      {/* <View style={styles().ActivityComplete}>
-        <Button title="Activity Completed" onPress={props.onActivityComplete} />
-      </View> */}
     </View>
   )
 }

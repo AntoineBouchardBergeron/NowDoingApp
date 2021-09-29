@@ -1,39 +1,37 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { View, Animated } from 'react-native'
-import ThemeSwitch from '../Theme/ThemeSwitch'
-import SlidePanel from '../Components/SlidePanel'
-import styles from '../Style/Styles'
+import React, { useEffect, useState, useRef } from "react";
+import { View, Animated } from "react-native";
+import ThemeSwitch from "../Theme/ThemeSwitch";
+import SlidePanel from "../Components/SlidePanel";
+import styles from "../Style/Styles";
 
-type Props = { isActive: boolean }
+type Props = { isActive: boolean };
 
 const SettingPanel = (props: Props) => {
-  const [isShown, setShown] = useState<boolean>(false)
-  const animation = useRef(new Animated.Value(0)).current
+  const animation = useRef(new Animated.Value(0)).current;
 
   const slideIn = () => {
     Animated.timing(animation, {
       toValue: 1,
-      duration: 1500,
+      duration: 1200,
       useNativeDriver: true,
-    }).start()
-  }
+    }).start();
+  };
 
   const slideOut = () => {
     Animated.timing(animation, {
       toValue: 0,
-      duration: 1500,
+      duration: 1200,
       useNativeDriver: true,
-    }).start(() => setShown(false))
-  }
+    }).start();
+  };
 
   useEffect(() => {
     if (props.isActive) {
-      setShown(true)
-      slideIn()
+      slideIn();
     } else {
-      slideOut()
+      slideOut();
     }
-  }, [props.isActive])
+  }, [props.isActive]);
 
   return (
     <Animated.View
@@ -51,19 +49,18 @@ const SettingPanel = (props: Props) => {
       }
     >
       <SlidePanel panelWidth={250}>
-        {isShown && <ThemeSwitch />}
-
         <ThemeSwitch />
-        <ThemeSwitch />
-        <ThemeSwitch />
-        {/* <StatsPanel />*/}
-        {/* <UserMamangeent />
+        {/* <StatsPanel />
+          <UserAccountSettings />
+          <PremiumOptions />
           <OtherOptions />
           <GraphicOptions/>
-          <SoundOption /> */}
+            <SmoothOutTimer (ticks or no ticks)>
+          <SoundOption /> 
+          <LegalThings /> */}
       </SlidePanel>
     </Animated.View>
-  )
-}
+  );
+};
 
-export default SettingPanel
+export default SettingPanel;

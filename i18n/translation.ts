@@ -4,10 +4,16 @@ type language = {
   SelectActivity: string
   TitleLabel: string
   DescriptionLabel: string
+  TitleActivityPreview: string
+  ActivityFinishedQuestion: string
+  TimerExpired: string
+  MoreTimeToCompleteQuestion: string
+  ModifyActivity: string
   y: string
   n: string
   ok: string
   cancel: string
+  close: string
 }
 
 const fr: language = {
@@ -16,10 +22,16 @@ const fr: language = {
   SelectActivity: 'Choisir une activité',
   TitleLabel: `Nom de l'activité :`,
   DescriptionLabel: `Description de l'activité :`,
+  TitleActivityPreview: `Visialisation de l,activité`,
+  ActivityFinishedQuestion: `Est-ce que l'activité est terminée?`,
+  TimerExpired: "Temps écoulé!",
+  MoreTimeToCompleteQuestion: "Avez-vous besoin de plus de temps pour terminer l'activité?",
+  ModifyActivity: "Modifier l'activité sélectionnée",
   y: 'Oui',
   n: 'Non',
   ok: 'OK',
   cancel: 'Annuler',
+  close: 'Fermer la fenêtre'
 }
 
 const en: language = {
@@ -28,10 +40,16 @@ const en: language = {
   SelectActivity: 'Select new Activity',
   TitleLabel: 'Activity name :',
   DescriptionLabel: 'Activity Description :',
+  TitleActivityPreview: "Activity Preview",
+  ActivityFinishedQuestion: "Is the activity finished?",
+  TimerExpired: "Time is up!",
+  MoreTimeToCompleteQuestion: "Do you need more time to complete the current activity?",
+  ModifyActivity: "Modify selected activity",
   y: 'Yes',
   n: 'No',
   ok: 'Okay',
   cancel: 'Cancel',
+  close: 'Close'
 }
 
 export { fr, en }
