@@ -38,7 +38,8 @@ const styles = () => {
     },
     title: {
       color: colors.text,
-      padding: 2,
+      top: 0,
+      padding: 12,
       margin: 2,
       fontSize: 22,
       alignContent: "center",
@@ -49,6 +50,14 @@ const styles = () => {
       padding: 12,
       margin: 2,
       fontSize: 22,
+      alignContent: "center",
+      alignSelf: "center",
+    },
+    smallTitle: {
+      color: colors.text,
+      padding: 2,
+      margin: 2,
+      fontSize: 16,
       alignContent: "center",
       alignSelf: "center",
     },
@@ -118,7 +127,7 @@ const styles = () => {
     },
     scrollView: {
       backgroundColor: colors.secondaryBackground,
-      borderRadius: 30,
+      borderRadius: 10,
     },
     settingsPanel: {
       flex: 1,
@@ -133,11 +142,26 @@ const styles = () => {
       width: 300,
     },
     ActivityPreview: {
+      padding: 10,
       borderRadius: 10,
       width: "100%",
       alignSelf: "stretch",
       justifyContent: "center",
       backgroundColor: colors.tertiaryBackground,
+      maxWidth: 400,
+    },
+    ClockPreviewView: {
+      alignItems: "center",
+    },
+    SelectNewActivity: {
+      position: "absolute",
+      alignItems: "center",
+      justifyContent: "center",
+      // alignContent: "center",
+      flex: 1,
+      flexDirection: "row",
+      flexWrap: "wrap",
+      height: "90%",
     },
   });
 };

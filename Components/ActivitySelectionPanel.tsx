@@ -29,10 +29,10 @@ const ActivitySelectionPanel = (props: Props) => {
   i18n.locale = Localization.locale;
 
   return (
-    <View style={styles().onTopPanel}>
+    <View style={styles().SelectNewActivity}>
       <Text style={styles().title}>{i18n.t("SelectActivity")}</Text>
-      <SafeAreaView>
-        {!updatePanel && (
+      {!updatePanel && (
+        <SafeAreaView>
           <ScrollView style={styles().scrollView}>
             <ActivityList
               activities={SAMPLE_ACTIVITIES}
@@ -42,19 +42,15 @@ const ActivitySelectionPanel = (props: Props) => {
               title={i18n.t("ModifyActivity")}
               onPress={() => showUpdatePanel((updatePanel) => !updatePanel)}
             />
-            <ActivityPreview />
-            <Button
-              title={i18n.t("close")}
-              onPress={() => props.onHideEvent()}
-            />
+            <ActivityPreview onHideEvent={() => props.onHideEvent()} />
           </ScrollView>
-        )}
-        {updatePanel && (
-          <ActivityPanelEditor
-            onHideEvent={() => showUpdatePanel((updatePanel) => !updatePanel)}
-          />
-        )}
-      </SafeAreaView>
+        </SafeAreaView>
+      )}
+      {updatePanel && (
+        <ActivityPanelEditor
+          onHideEvent={() => showUpdatePanel((updatePanel) => !updatePanel)}
+        />
+      )}
     </View>
   );
 };

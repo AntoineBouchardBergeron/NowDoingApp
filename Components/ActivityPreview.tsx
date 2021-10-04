@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { Time } from "../Classes/Time";
 import styles from "../Style/Styles";
 import { useActiveActivity } from "./ActivityProvider";
@@ -11,14 +11,17 @@ import * as Localization from "expo-localization";
 import Clock from "./Clock";
 import ClockTime from "./ClockTime";
 
-const ActivityPreview = () => {
+type Props = {
+  onHideEvent: () => void;
+};
+
+const ActivityPreview = (props: Props) => {
   //returns ActivityTitle/name Description
   //Timeestimated, timePassedOnActivity, amountTimeAddedTime
   // isActivityReccuring? (as if it was saved as a template)
   // Clock reprensetation of timeEstimated and TimePassedOnActivity
 
-  const { description, estimatedTime, desiredRepresentation, timePassed } =
-    useActiveActivity();
+  const { description, estimatedTime, timePassed } = useActiveActivity();
 
   i18n.fallbacks = true;
   i18n.translations = { fr, en };
@@ -27,7 +30,9 @@ const ActivityPreview = () => {
   return (
     <>
       <View>
-        <Text style={styles().titleTextView}>{i18n.t("TitleActivityPreview")}</Text>
+        <Text style={styles().titleTextView}>
+          {i18n.t("TitleActivityPreview")}
+        </Text>
       </View>
       <View style={styles().ActivityPreview}>
         <Text style={styles().basicText}>{description}</Text>
@@ -40,16 +45,14 @@ const ActivityPreview = () => {
             <Text style={styles().basicText}>{i18n.t("TimePassed")}</Text>
             <ClockTime time={timePassed} />
           </View>
-          <View>
-            <Text style={styles().title}>{i18n.t("TimeLeftClock")}</Text>
+          <View style={styles().ClockPreviewView}>
+            <Text style={styles().smallTitle}>{i18n.t("TimeLeftClock")}</Text>
             <Clock
-              representedTime={Time.timeDifference(estimatedTime, timePassed)}
-              timeRepresentation={desiredRepresentation.value}
               clockBackgroundColor={styles().ActivityPreview.backgroundColor}
-              clockColor={useTheme().colors.clockColors}
               sizeFactor={0.8}
             />
           </View>
+          <Button title={i18n.t("close")} onPress={() => props.onHideEvent()} />
         </View>
       </View>
     </>

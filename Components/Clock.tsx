@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { DesiredTimeRepresentation } from "../Classes/DesiredTimeRepresentation";
 import { Time } from "../Classes/Time";
+import { useActiveActivity } from "./ActivityProvider";
+import { useTheme } from "./ThemeProvider";
 
 type Props = {
-  representedTime: Time;
-  timeRepresentation: number;
-  clockBackgroundColor: string;
-  clockColor: string[];
+  representedTime?: Time;
+  timeRepresentation?: number;
+  clockBackgroundColor?: string;
+  clockColor?: string[];
   sizeFactor?: number;
 };
 
@@ -34,6 +36,10 @@ const getRadius = () => {
   return min * 0.8;
 };
 
+const getQuadrant = (representedSeconds: number, timeEstimated: number) => {
+  return Math.trunc((8 * representedSeconds) / getTotalTime(timeEstimated));
+};
+
 const transforms = [
   [{ scaleX: -1 }],
   [{ rotate: "90deg" }],
@@ -50,84 +56,105 @@ const getTransform = (position: number) => {
 };
 
 const Clock = (props: Props) => {
+  const { timePassed, estimatedTime, desiredRepresentation } =
+    useActiveActivity();
+
+  const { colors } = useTheme();
   const [sizeFactor, setSizeFactor] = useState<number>(() =>
     props.sizeFactor ? props.sizeFactor : 1
   );
   const [radius, setRadius] = useState<number>(getRadius());
+
+  const [representedSeconds, setRepresentedSeconds] = useState<number>(
+    props.representedTime
+      ? props.representedTime.seconds
+      : Time.timeDifference(estimatedTime, timePassed).seconds
+  );
+  const [timeEstimated, setTimeEstimated] = useState<number>(
+    props.timeRepresentation
+      ? props.timeRepresentation
+      : desiredRepresentation.value
+  );
+  const [alpha, setAlpha] = useState<number>(
+    representedSeconds / getTotalTime(timeEstimated)
+  );
   const [clockColour, setClockColour] = useState<string>(
-    getColorConfiguration(props.clockColor, props.timeRepresentation)
+    getColorConfiguration(
+      props.clockColor ? props.clockColor : colors.clockColors,
+      props.timeRepresentation
+        ? props.timeRepresentation
+        : desiredRepresentation.value
+    )
+  );
+  const [backgroundClockColor, setBackgroundClockColor] = useState<string>(
+    props.clockBackgroundColor
+      ? props.clockBackgroundColor
+      : colors.background
   );
   const [activeTransform, setActiveTransform] = useState(getTransform(0));
-  const [bRightColor, setbRightColor] = useState<string>(
-    props.clockBackgroundColor
-  );
+  const [bRightColor, setbRightColor] = useState<string>(backgroundClockColor);
   const [bBottomColor, setbBottomColor] = useState<string>("transparent");
   const [bottom, setBottom] = useState<string>("200%");
   const [left, setLeft] = useState<string>("50%");
-  const [alpha, setAlpha] = useState<number>(
-    props.representedTime.seconds / getTotalTime(props.timeRepresentation)
-  );
+
+  // ALL OF THIS HAPPENS AFTER RENDER, therefore, it's no good :)
 
   useEffect(() => {
-    setActiveTransform((activeTransform) => {
-      return getTransform(
-        7 -
-          Math.trunc(
-            (props.representedTime.seconds /
-              getTotalTime(props.timeRepresentation)) *
-              8
-          )
+    setRepresentedSeconds((representedSeconds) => {
+      return props.representedTime
+        ? props.representedTime.seconds
+        : Time.timeDifference(estimatedTime, timePassed).seconds;
+    });
+    setTimeEstimated((timeEstimated) =>
+      props.timeRepresentation
+        ? props.timeRepresentation
+        : desiredRepresentation.value
+    );
+    setClockColour((clockColour) => {
+      return getColorConfiguration(
+        props.clockColor ? props.clockColor : colors.clockColors,
+        props.timeRepresentation
+          ? props.timeRepresentation
+          : desiredRepresentation.value
       );
     });
-    setClockColour((color) => {
-      return getColorConfiguration(props.clockColor, props.timeRepresentation);
+    setBackgroundClockColor((clockBackgroundColor) =>
+      props.clockBackgroundColor
+        ? props.clockBackgroundColor
+        : colors.background
+    );
+
+    setActiveTransform((activeTransform) => {
+      return getTransform(
+        7 - Math.trunc((representedSeconds / getTotalTime(timeEstimated)) * 8)
+      );
     });
     setbRightColor((color) => {
-      return Math.trunc(
-        (props.representedTime.seconds /
-          getTotalTime(props.timeRepresentation)) *
-          8
-      ) %
-        2 ===
-        1
-        ? props.clockBackgroundColor
+      return getQuadrant(representedSeconds, timeEstimated) % 2 === 1
+        ? backgroundClockColor
         : "transparent";
     });
     setbBottomColor((color) => {
-      return Math.trunc(
-        (props.representedTime.seconds /
-          getTotalTime(props.timeRepresentation)) *
-          8
-      ) %
-        2 ===
-        0
-        ? props.clockBackgroundColor
+      return getQuadrant(representedSeconds, timeEstimated) % 2 === 0
+        ? backgroundClockColor
         : "transparent";
     });
     setBottom((bottom) => {
-      return 0.25 <=
-        props.representedTime.seconds /
-          getTotalTime(props.timeRepresentation) &&
-        props.representedTime.seconds / getTotalTime(props.timeRepresentation) <
-          0.75
+      return 0.25 <= representedSeconds / getTotalTime(timeEstimated) &&
+        representedSeconds / getTotalTime(timeEstimated) < 0.75
         ? "150%"
         : "200%";
     });
     setLeft((left) => {
-      return 0.5 <
-        (props.representedTime.seconds + 1) /
-          getTotalTime(props.timeRepresentation)
+      return 0.5 < (representedSeconds + 1) / getTotalTime(timeEstimated)
         ? "50%"
         : "0%";
     });
     setAlpha((alpha) => {
-      var a =
-        (props.representedTime.seconds /
-          (getTotalTime(props.timeRepresentation) * 0.25)) %
-        1;
+      var a = (representedSeconds / (getTotalTime(timeEstimated) * 0.25)) % 1;
       return a > 0.5 ? (1 - a) * radius : a * radius;
     });
-  }, [props.representedTime]);
+  });
 
   const style = StyleSheet.create({
     clock: {
@@ -136,18 +163,13 @@ const Clock = (props: Props) => {
       height: radius,
       width: radius,
       borderRadius: radius / 2,
-      transform: [
-        {scale: sizeFactor}
-      ]
+      transform: [{ scale: sizeFactor }],
     },
     firstQuadrant: {
       backgroundColor:
-        Math.trunc(
-          (props.representedTime.seconds * 4) /
-            getTotalTime(props.timeRepresentation)
-        ) >= 3
+        Math.trunc((representedSeconds * 4) / getTotalTime(timeEstimated)) >= 3
           ? "transparent"
-          : props.clockBackgroundColor,
+          : backgroundClockColor,
       height: "50%",
       width: "50%",
       bottom: "0%",
@@ -155,12 +177,9 @@ const Clock = (props: Props) => {
     },
     secondQuadrant: {
       backgroundColor:
-        Math.trunc(
-          (props.representedTime.seconds * 4) /
-            getTotalTime(props.timeRepresentation)
-        ) >= 2
+        Math.trunc((representedSeconds * 4) / getTotalTime(timeEstimated)) >= 2
           ? "transparent"
-          : props.clockBackgroundColor,
+          : backgroundClockColor,
       height: "50%",
       width: "50%",
       bottom: "0%",
@@ -168,24 +187,18 @@ const Clock = (props: Props) => {
     },
     thirdQuadrant: {
       backgroundColor:
-        Math.trunc(
-          (props.representedTime.seconds * 4) /
-            getTotalTime(props.timeRepresentation)
-        ) >= 1
+        Math.trunc((representedSeconds * 4) / getTotalTime(timeEstimated)) >= 1
           ? "transparent"
-          : props.clockBackgroundColor,
+          : backgroundClockColor,
       height: "50%",
       width: "50%",
       bottom: "50%",
     },
     forthQuadrant: {
       backgroundColor:
-        Math.trunc(
-          (props.representedTime.seconds * 4) /
-            getTotalTime(props.timeRepresentation)
-        ) >= 0
+        Math.trunc((representedSeconds * 4) / getTotalTime(timeEstimated)) >= 0
           ? "transparent"
-          : props.clockBackgroundColor,
+          : backgroundClockColor,
       height: "50%",
       width: "50%",
       bottom: "150%",
