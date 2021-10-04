@@ -4,9 +4,9 @@ import TaskPanelEditor from './TaskPanelEditor'
 import ActiveTaskPanel from './ActiveTaskPanel'
 import ActiveTimer from './ActiveTimer'
 import { Task } from '../types/Task'
-import { SAMPLE_TASK_ARRAY } from '../types/TaskList'
+import { SAMPLE_TASK_ARRAY } from '../Types/TaskList'
 import { useTheme } from './ThemeProvider'
-import ThemeSwitch from '../theme/ThemeSwitch'
+import ThemeSwitch from '../Theme/ThemeSwitch'
 
 const MainActivity = () => {
   const [activeTask, setActiveTask] = useState<Task>(SAMPLE_TASK_ARRAY[0])
