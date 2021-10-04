@@ -61,7 +61,7 @@ const en: language = {
   TimerExpired: "Time is up!",
   MoreTimeToCompleteQuestion:
     "Do you need more time to complete the current activity?",
-  ModifyActivity: "Modify selected activity",
+  ModifyActivity: "Modify activity",
   y: "Yes",
   n: "No",
   ok: "Okay",

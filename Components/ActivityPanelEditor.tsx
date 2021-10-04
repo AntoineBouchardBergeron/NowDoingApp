@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View } from "react-native";
+import { Button, View, Text } from "react-native";
 import { useTheme } from "./ThemeProvider";
 import i18n from "i18n-js";
 import { en, fr } from "../i18n/translation";
@@ -9,6 +9,7 @@ import { useActiveActivity } from "./ActivityProvider";
 import styles from "../Style/Styles";
 
 type Props = {
+  panelTitle: string;
   onHideEvent: () => void;
 };
 
@@ -23,6 +24,7 @@ const TaskPanelEditor = (props: Props) => {
 
   return (
     <View style={styles().onTopPanel}>
+      <Text style={styles().title}>{props.panelTitle}</Text>
       <View style={styles().ViewRow}>
         <TextInput
           defaultValue={title === "" ? i18n.t("TitleLabel") : title}

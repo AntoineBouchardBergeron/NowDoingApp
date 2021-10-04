@@ -38,7 +38,6 @@ const styles = () => {
     },
     title: {
       color: colors.text,
-      top: 0,
       padding: 12,
       margin: 2,
       fontSize: 22,
@@ -130,6 +129,11 @@ const styles = () => {
     scrollView: {
       backgroundColor: colors.secondaryBackground,
       borderRadius: 10,
+      flexDirection: "row",
+      flexWrap: "wrap",
+      width: "100%",
+      alignContent: "center",
+      alignSelf: "center",
     },
     settingsPanel: {
       flex: 1,
@@ -149,7 +153,7 @@ const styles = () => {
       alignSelf: "stretch",
       justifyContent: "center",
       backgroundColor: colors.tertiaryBackground,
-      maxWidth: 400,
+      maxWidth: 350,
     },
     ClockPreviewView: {
       alignItems: "center",
@@ -164,6 +168,10 @@ const styles = () => {
       flexWrap: "wrap",
       height: "90%",
       width: "90%",
+      maxWidth: "90%",
+    },
+    ActivityList: {
+
     },
   });
 };
