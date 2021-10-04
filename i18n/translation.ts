@@ -1,28 +1,32 @@
 type language = {
-  StartTimer: string
-  StopTimer: string
-  SelectActivity: string
-  TitleLabel: string
-  DescriptionLabel: string
-  TitleActivityPreview: string
-  TimeEstimate:string
-  TimePassed:string
-  TimeLeftClock:string
-  ActivityFinishedQuestion: string
-  TimerExpired: string
-  MoreTimeToCompleteQuestion: string
-  ModifyActivity: string
-  y: string
-  n: string
-  ok: string
-  cancel: string
-  close: string
-}
+  StartTimer: string;
+  StopTimer: string;
+  SelectActivity: string;
+  EditActivity: string;
+  CreateNewActivity: string,
+  TitleLabel: string;
+  DescriptionLabel: string;
+  TitleActivityPreview: string;
+  TimeEstimate: string;
+  TimePassed: string;
+  TimeLeftClock: string;
+  ActivityFinishedQuestion: string;
+  TimerExpired: string;
+  MoreTimeToCompleteQuestion: string;
+  ModifyActivity: string;
+  y: string;
+  n: string;
+  ok: string;
+  cancel: string;
+  close: string;
+};
 
 const fr: language = {
-  StartTimer: 'Démarrer minuteur',
-  StopTimer: 'Arrêter minuteur',
-  SelectActivity: 'Choisir une activité',
+  StartTimer: "Démarrer minuteur",
+  StopTimer: "Arrêter minuteur",
+  SelectActivity: "Choisir une activité",
+  CreateNewActivity: "Créer une nouvelle activité" ,
+  EditActivity: `Éditer l'activité`,
   TitleLabel: `Nom de l'activité :`,
   DescriptionLabel: `Description de l'activité :`,
   TitleActivityPreview: `Visialisation de l,activité`,
@@ -31,34 +35,38 @@ const fr: language = {
   TimeLeftClock: "Représentation de l'horloge",
   ActivityFinishedQuestion: `Est-ce que l'activité est terminée?`,
   TimerExpired: "Temps écoulé!",
-  MoreTimeToCompleteQuestion: "Avez-vous besoin de plus de temps pour terminer l'activité?",
+  MoreTimeToCompleteQuestion:
+    "Avez-vous besoin de plus de temps pour terminer l'activité?",
   ModifyActivity: "Modifier l'activité sélectionnée",
-  y: 'Oui',
-  n: 'Non',
-  ok: 'OK',
-  cancel: 'Annuler',
-  close: 'Fermer la fenêtre'
-}
+  y: "Oui",
+  n: "Non",
+  ok: "OK",
+  cancel: "Annuler",
+  close: "Fermer la fenêtre",
+};
 
 const en: language = {
-  StartTimer: 'Start timer',
-  StopTimer: 'Stop Timer',
-  SelectActivity: 'Select new Activity',
-  TitleLabel: 'Activity name :',
-  DescriptionLabel: 'Activity Description :',
+  StartTimer: "Start timer",
+  StopTimer: "Stop Timer",
+  SelectActivity: "Select Activity",
+  EditActivity: "Edit Activity",
+  CreateNewActivity: "Create activity",
+  TitleLabel: "Activity name :",
+  DescriptionLabel: "Activity Description :",
   TitleActivityPreview: "Activity Preview",
   TimeEstimate: "Time estimated to finish activity :",
   TimePassed: "Time passed doing selected activity :",
   TimeLeftClock: "Timer Representation",
   ActivityFinishedQuestion: "Is the activity finished?",
   TimerExpired: "Time is up!",
-  MoreTimeToCompleteQuestion: "Do you need more time to complete the current activity?",
+  MoreTimeToCompleteQuestion:
+    "Do you need more time to complete the current activity?",
   ModifyActivity: "Modify selected activity",
-  y: 'Yes',
-  n: 'No',
-  ok: 'Okay',
-  cancel: 'Cancel',
-  close: 'Close'
-}
+  y: "Yes",
+  n: "No",
+  ok: "Okay",
+  cancel: "Cancel",
+  close: "Close",
+};
 
-export { fr, en }
+export { fr, en };

@@ -7,6 +7,7 @@ import {
 import ActivityList from "./ActivityList";
 import ActivityPreview from "./ActivityPreview";
 import ActivityPanelEditor from "./ActivityPanelEditor";
+import CustomView from "./CustomView";
 import { useActiveActivity } from "./ActivityProvider";
 import styles from "../Style/Styles";
 import i18n from "i18n-js";
@@ -30,26 +31,49 @@ const ActivitySelectionPanel = (props: Props) => {
 
   return (
     <View style={styles().SelectNewActivity}>
-      <Text style={styles().title}>{i18n.t("SelectActivity")}</Text>
-      {!updatePanel && (
-        <SafeAreaView>
+      <Text style={styles().title}>
+        {!updatePanel ? i18n.t("SelectActivity") : i18n.t("EditActivity")}
+      </Text>
+      <SafeAreaView>
+        {!updatePanel && (
           <ScrollView style={styles().scrollView}>
             <ActivityList
               activities={SAMPLE_ACTIVITIES}
               onSelection={changeSelection}
             />
+
+            {/* Whenever views are nested inside of a bool validation objet, 
+            it crashes the view because of renders (when it's disabled, it tries
+             to render it, but it's gone, so it says RENDER MOTHERFLIPPIN ERROR) 
+             BUT CUSTOM VIEW WORKS?&?!?! (them caps are even bigger) */}
+
+            {/* <View style={styles().ViewColumn}> */}
+            <CustomView >
+              <Button
+                title={i18n.t("CreateNewActivity")}
+                onPress={() => props.onHideEvent()}
+              />
+              <Button
+                title={i18n.t("ModifyActivity")}
+                onPress={() => showUpdatePanel((updatePanel) => !updatePanel)}
+              />
+            </CustomView>
+            {/* </View> */}
+
+            <ActivityPreview />
             <Button
-              title={i18n.t("ModifyActivity")}
-              onPress={() => showUpdatePanel((updatePanel) => !updatePanel)}
+              title={i18n.t("close")}
+              onPress={() => props.onHideEvent()}
             />
-            <ActivityPreview onHideEvent={() => props.onHideEvent()} />
           </ScrollView>
-        </SafeAreaView>
-      )}
+        )}
+      </SafeAreaView>
       {updatePanel && (
-        <ActivityPanelEditor
-          onHideEvent={() => showUpdatePanel((updatePanel) => !updatePanel)}
-        />
+        <View style={styles().onTopPanel}>
+          <ActivityPanelEditor
+            onHideEvent={() => showUpdatePanel((updatePanel) => !updatePanel)}
+          />
+        </View>
       )}
     </View>
   );

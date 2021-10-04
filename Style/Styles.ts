@@ -70,6 +70,9 @@ const styles = () => {
     },
     selected: {
       color: colors.text,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      borderRadius: 4,
       padding: 2,
       margin: 2,
       marginBottom: 10,
@@ -103,7 +106,6 @@ const styles = () => {
       height: "100%",
       alignSelf: "center",
       justifyContent: "center",
-      opacity: 1,
     },
     ViewRow: {
       flexDirection: "row",
@@ -136,7 +138,6 @@ const styles = () => {
       backgroundColor: "#000",
     },
     slidingPanel: {
-      // position: 'absolute',
       backgroundColor: colors.backdrop,
       elevation: 3,
       width: 300,
@@ -155,13 +156,14 @@ const styles = () => {
     },
     SelectNewActivity: {
       position: "absolute",
+      alignSelf: "center",
       alignItems: "center",
       justifyContent: "center",
-      // alignContent: "center",
       flex: 1,
       flexDirection: "row",
       flexWrap: "wrap",
       height: "90%",
+      width: "90%",
     },
   });
 };

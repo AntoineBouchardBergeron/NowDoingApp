@@ -11,9 +11,7 @@ import * as Localization from "expo-localization";
 import Clock from "./Clock";
 import ClockTime from "./ClockTime";
 
-type Props = {
-  onHideEvent: () => void;
-};
+type Props = {};
 
 const ActivityPreview = (props: Props) => {
   //returns ActivityTitle/name Description
@@ -52,7 +50,6 @@ const ActivityPreview = (props: Props) => {
               sizeFactor={0.8}
             />
           </View>
-          <Button title={i18n.t("close")} onPress={() => props.onHideEvent()} />
         </View>
       </View>
     </>

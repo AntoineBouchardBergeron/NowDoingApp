@@ -19,7 +19,6 @@ const ActiveActivityPanel = (props: Props) => {
   i18n.fallbacks = true;
   i18n.translations = { en, fr };
   i18n.locale = Localization.locale;
-  const { colors } = useTheme();
   const { title, description } = useActiveActivity();
 
   function TogglePause() {
