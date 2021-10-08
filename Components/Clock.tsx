@@ -87,9 +87,7 @@ const Clock = (props: Props) => {
     )
   );
   const [backgroundClockColor, setBackgroundClockColor] = useState<string>(
-    props.clockBackgroundColor
-      ? props.clockBackgroundColor
-      : colors.background
+    props.clockBackgroundColor ? props.clockBackgroundColor : colors.background
   );
   const [activeTransform, setActiveTransform] = useState(getTransform(0));
   const [bRightColor, setbRightColor] = useState<string>(backgroundClockColor);

@@ -7,6 +7,7 @@ import * as localization from "expo-localization";
 import TextInput from "./TextInput";
 import { useActiveActivity } from "./ActivityProvider";
 import styles from "../Style/Styles";
+import Container from "./Container";
 
 type Props = {
   panelTitle: string;
@@ -23,7 +24,7 @@ const TaskPanelEditor = (props: Props) => {
   const sendInformation = () => {};
 
   return (
-    <View style={styles().onTopPanel}>
+    <Container>
       <Text style={styles().title}>{props.panelTitle}</Text>
       <View style={styles().ViewRow}>
         <TextInput
@@ -44,7 +45,7 @@ const TaskPanelEditor = (props: Props) => {
         />
       </View>
       <Button title={"Close"} onPress={() => props.onHideEvent()} />
-    </View>
+    </Container>
   );
 };
 

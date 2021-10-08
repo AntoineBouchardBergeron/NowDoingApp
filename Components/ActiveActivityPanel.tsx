@@ -7,6 +7,7 @@ import { fr, en } from "../i18n/translation";
 import * as Localization from "expo-localization";
 import { useActiveActivity } from "./ActivityProvider";
 import styles from "../Style/Styles";
+import Container from "../Components/Container"
 
 type Props = {
   isPaused: boolean;
@@ -32,7 +33,7 @@ const ActiveActivityPanel = (props: Props) => {
   useEffect(() => {}, [props.isPaused]);
 
   return (
-    <View style={styles().ActivityPanel}>
+    <Container>
       <Text style={styles().title}>{title}</Text>
       <Text style={styles().basicText}>{description}</Text>
       <View style={styles().ViewColumn}>
@@ -52,7 +53,7 @@ const ActiveActivityPanel = (props: Props) => {
           />
         </View>
       </View>
-    </View>
+    </Container>
   );
 };
 

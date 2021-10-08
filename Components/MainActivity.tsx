@@ -103,6 +103,7 @@ const MainActivity = (props: Props) => {
             onTimerStopped={completeActiveActivity}
           />
         )}
+
         {!showActivityPanelEditor && (
           <ActiveTimer
             toggle={isTimerPaused}

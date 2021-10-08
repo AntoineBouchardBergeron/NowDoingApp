@@ -1,17 +1,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Time } from "../Classes/Time";
-import { View, Button } from "react-native";
 import Clock from "./Clock";
 import { useTheme } from "./ThemeProvider";
 import { useActiveActivity } from "./ActivityProvider";
-import styles from "../Style/Styles";
-
+import Container from "../Components/Container";
 type Props = {
   toggle: boolean;
   // onActivityComplete: () => void
   onTimerExpired: () => void;
 };
-
 
 const ActiveTimer = (props: Props) => {
   const { timePassed, estimatedTime, desiredRepresentation } =
@@ -41,14 +38,14 @@ const ActiveTimer = (props: Props) => {
   }, [props.toggle, countdownAmount.current]);
 
   return (
-    <View style={styles().ActivityPanel}>
+    <Container>
       <Clock
         representedTime={tickDown()}
         timeRepresentation={desiredRepresentation.value}
         clockBackgroundColor={useTheme().colors.secondaryBackground}
         clockColor={useTheme().colors.clockColors}
       />
-    </View>
+    </Container>
   );
 };
 

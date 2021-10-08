@@ -3,7 +3,8 @@ type language = {
   StopTimer: string;
   SelectActivity: string;
   EditActivity: string;
-  CreateNewActivity: string,
+  CreateNewActivity: string;
+  StartActivity: string;
   TitleLabel: string;
   DescriptionLabel: string;
   TitleActivityPreview: string;
@@ -25,8 +26,9 @@ const fr: language = {
   StartTimer: "Démarrer minuteur",
   StopTimer: "Arrêter minuteur",
   SelectActivity: "Choisir une activité",
-  CreateNewActivity: "Créer une nouvelle activité" ,
+  CreateNewActivity: "Créer une nouvelle activité",
   EditActivity: `Éditer l'activité`,
+  StartActivity: "Démarrer l'activité",
   TitleLabel: `Nom de l'activité :`,
   DescriptionLabel: `Description de l'activité :`,
   TitleActivityPreview: `Visialisation de l,activité`,
@@ -51,6 +53,7 @@ const en: language = {
   SelectActivity: "Select Activity",
   EditActivity: "Edit Activity",
   CreateNewActivity: "Create activity",
+  StartActivity: "Start Activity",
   TitleLabel: "Activity name :",
   DescriptionLabel: "Activity Description :",
   TitleActivityPreview: "Activity Preview",

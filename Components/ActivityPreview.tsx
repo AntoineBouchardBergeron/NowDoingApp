@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, SafeAreaView, ScrollView } from "react-native";
 import { Time } from "../Classes/Time";
 import styles from "../Style/Styles";
 import { useActiveActivity } from "./ActivityProvider";
@@ -10,8 +10,11 @@ import { fr, en } from "../i18n/translation";
 import * as Localization from "expo-localization";
 import Clock from "./Clock";
 import ClockTime from "./ClockTime";
+import Container from "./Container";
 
-type Props = {};
+type Props = {
+  onSelectEvent: () => void;
+};
 
 const ActivityPreview = (props: Props) => {
   //returns ActivityTitle/name Description
@@ -26,33 +29,48 @@ const ActivityPreview = (props: Props) => {
   i18n.locale = Localization.locale;
 
   return (
-    <>
+    <Container>
       <View>
         <Text style={styles().titleTextView}>
           {i18n.t("TitleActivityPreview")}
         </Text>
       </View>
-      <View style={styles().ActivityPreview}>
-        <Text style={styles().basicText}>{description}</Text>
-        <View style={{}}>
-          <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
-            <Text style={styles().basicText}>{i18n.t("TimeEstimate")}</Text>
-            <ClockTime time={estimatedTime} />
+      <SafeAreaView style={styles().SafeAreaActivity}>
+        <ScrollView>
+          <View style={styles().ActivityPreview}>
+            <Text style={styles().basicText}>{description}</Text>
+            <View style={{}}>
+              <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
+                <Text style={styles().basicText}>{i18n.t("TimeEstimate")}</Text>
+                <ClockTime time={estimatedTime} />
+              </View>
+              <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
+                <Text style={styles().basicText}>{i18n.t("TimePassed")}</Text>
+                <ClockTime time={timePassed} />
+              </View>
+              <View style={styles().ClockPreviewView}>
+                <Text style={styles().smallTitle}>
+                  {i18n.t("TimeLeftClock")}
+                </Text>
+                <Clock
+                  clockBackgroundColor={
+                    styles().ActivityPreview.backgroundColor
+                  }
+                  sizeFactor={0.8}
+                />
+              </View>
+            </View>
           </View>
-          <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
-            <Text style={styles().basicText}>{i18n.t("TimePassed")}</Text>
-            <ClockTime time={timePassed} />
-          </View>
-          <View style={styles().ClockPreviewView}>
-            <Text style={styles().smallTitle}>{i18n.t("TimeLeftClock")}</Text>
-            <Clock
-              clockBackgroundColor={styles().ActivityPreview.backgroundColor}
-              sizeFactor={0.8}
-            />
-          </View>
-        </View>
+        </ScrollView>
+      </SafeAreaView>
+
+      <View style={styles().buttons}>
+        <Button
+          title={i18n.t("StartActivity")}
+          onPress={() => props.onSelectEvent()}
+        />
       </View>
-    </>
+    </Container>
   );
 };
 

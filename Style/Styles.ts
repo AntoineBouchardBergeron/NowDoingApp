@@ -18,8 +18,10 @@ const styles = () => {
       flex: 1,
       flexDirection: "column",
       flexWrap: "wrap",
+      alignSelf: "center",
+      alignItems: "stretch",
+      alignContent: "space-between",
       justifyContent: "space-evenly",
-      alignContent: "space-around",
       width: "100%",
       height: "100%",
       // paddingTop: 20,
@@ -28,13 +30,20 @@ const styles = () => {
       backgroundColor: colors.secondaryBackground,
       borderRadius: 10,
       padding: 10,
+      justifyContent: "space-evenly",
       alignContent: "stretch",
       alignSelf: "stretch",
       alignItems: "center",
-      width: "100%",
+      // width: "100%",
       maxWidth: 300,
+      margin: 5,
       // flexDirection: `row`,
       // flex: 1,
+    },
+    SafeAreaActivity: {
+      backgroundColor: colors.secondaryBackground,
+      alignSelf: "stretch",
+      alignItems: "stretch",
     },
     title: {
       color: colors.text,
@@ -47,7 +56,7 @@ const styles = () => {
     titleTextView: {
       color: colors.text,
       padding: 12,
-      margin: 2,
+      margin: 12,
       fontSize: 22,
       alignContent: "center",
       alignSelf: "center",
@@ -80,7 +89,8 @@ const styles = () => {
     buttons: {
       // width: '80%',
       // flexDirection: 'row',
-      padding: 2,
+      padding: 12,
+      margin: 12,
       elevation: 5,
       maxWidth: 280,
     },
@@ -129,11 +139,14 @@ const styles = () => {
     scrollView: {
       backgroundColor: colors.secondaryBackground,
       borderRadius: 10,
-      flexDirection: "row",
-      flexWrap: "wrap",
-      width: "100%",
-      alignContent: "center",
-      alignSelf: "center",
+      flexWrap: "nowrap",
+      flexGrow: 0,
+      flexShrink: 1,
+      // flexDirection: "row",
+      // flexWrap: "wrap",
+      // width: "100%",
+      // alignContent: "center",
+      // alignSelf: "center",
     },
     settingsPanel: {
       flex: 1,
@@ -150,10 +163,11 @@ const styles = () => {
       padding: 10,
       borderRadius: 10,
       width: "100%",
-      alignSelf: "stretch",
-      justifyContent: "center",
+      alignSelf: "center",
+      justifyContent: "space-evenly",
+      flex: 1,
       backgroundColor: colors.tertiaryBackground,
-      maxWidth: 350,
+      // maxWidth: 350,
     },
     ClockPreviewView: {
       alignItems: "center",
@@ -170,9 +184,7 @@ const styles = () => {
       width: "90%",
       maxWidth: "90%",
     },
-    ActivityList: {
-
-    },
+    ActivityList: {},
   });
 };
 

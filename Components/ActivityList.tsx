@@ -1,19 +1,20 @@
-import React from 'react'
-import { View } from 'react-native'
-import ActivityItem from './ActivityItem'
-import { ReactNode } from 'react'
-import { Activities } from '../Types/ActivityList'
-import { useActiveActivity } from './ActivityProvider'
+import React from "react";
+import { View, SafeAreaView, ScrollView } from "react-native";
+import ActivityItem from "./ActivityItem";
+import { ReactNode } from "react";
+import { Activities } from "../Types/ActivityList";
+import { useActiveActivity } from "./ActivityProvider";
+import styles from "../Style/Styles";
 
 type Props = {
-  activities: Activities
-  onSelection: (index: number) => void
-}
+  activities: Activities;
+  onSelection: (index: number) => void;
+};
 
 const ActivityList = (props: Props) => {
-  const activities: ReactNode[] = []
+  const activities: ReactNode[] = [];
 
-  const { id } = useActiveActivity()
+  const { id } = useActiveActivity();
 
   props.activities.activities.forEach((activity) => {
     activities.push(
@@ -22,13 +23,17 @@ const ActivityList = (props: Props) => {
         key={activity.id}
         isSelected={id === activity.id}
         onPress={() => {
-          props.onSelection(activity.id)
+          props.onSelection(activity.id);
         }}
       />
-    )
-  })
+    );
+  });
 
-  return <View>{activities}</View>
-}
+  return (
+    <SafeAreaView style={styles().SafeAreaActivity}>
+      <ScrollView style={styles().scrollView}>{activities}</ScrollView>
+    </SafeAreaView>
+  );
+};
 
-export default ActivityList
+export default ActivityList;
