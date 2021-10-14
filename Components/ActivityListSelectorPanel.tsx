@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { SafeAreaView, ScrollView, Text, Button, View } from "react-native";
+import { SafeAreaView, useWindowDimensions, Text, Button, View } from "react-native";
 import Container from "./Container";
 import ActivityList from "./ActivityList";
 import styles from "../Style/Styles";
@@ -7,6 +7,7 @@ import { useActiveActivity } from "./ActivityProvider";
 import {
   SAMPLE_ACTIVITY_ARRAY,
   SAMPLE_ACTIVITIES,
+  SAMPLE_LOTS_ACTIVITIES,
 } from "../Types/ActivityList";
 import CustomView from "./CustomView";
 
@@ -26,23 +27,21 @@ const ActivityListSelectorPanel = (props: Props) => {
 
   const { setActiveActivity } = useActiveActivity();
   const changeSelection = (index: number) => {
-    setActiveActivity(SAMPLE_ACTIVITY_ARRAY[index - 1]);
+    setActiveActivity(SAMPLE_LOTS_ACTIVITIES.activities[index - 1]);
   };
 
+  const maxWidth = useWindowDimensions().width;
+  const maxHeight = useWindowDimensions().height;
+  const minVal = maxHeight < maxWidth ? maxHeight : maxWidth;
+
   return (
-    <Container>
+    <Container styling={[styles().Container, { height: minVal == maxWidth ? maxHeight * 0.40 : maxHeight * 0.9 }]}>
       <Text style={styles().title}>{i18n.t("SelectActivity")}</Text>
       <ActivityList
-        activities={SAMPLE_ACTIVITIES}
+        activities={SAMPLE_LOTS_ACTIVITIES}
         onSelection={changeSelection}
       />
 
-      {/* Whenever views are nested inside of a bool validation objet, 
-            it crashes the view because of renders (when it's disabled, it tries
-             to render it, but it's gone, so it says RENDER MOTHERFLIPPIN ERROR) 
-             BUT CUSTOM VIEW WORKS?&?!?! (them caps are even bigger) */}
-
-      {/* <View style={styles().ViewColumn}> */}
       <View style={styles().ViewRow}>
         <Button
           title={i18n.t("CreateNewActivity")}

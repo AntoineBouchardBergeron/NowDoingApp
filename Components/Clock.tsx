@@ -33,7 +33,7 @@ const getRadius = () => {
   const width = useWindowDimensions().width;
   const height = useWindowDimensions().height;
   const min = Math.min(width, height);
-  return min * 0.8;
+  return min == width ? min * 0.8 : width * 0.4;
 };
 
 const getQuadrant = (representedSeconds: number, timeEstimated: number) => {
@@ -94,8 +94,6 @@ const Clock = (props: Props) => {
   const [bBottomColor, setbBottomColor] = useState<string>("transparent");
   const [bottom, setBottom] = useState<string>("200%");
   const [left, setLeft] = useState<string>("50%");
-
-  // ALL OF THIS HAPPENS AFTER RENDER, therefore, it's no good :)
 
   useEffect(() => {
     setRepresentedSeconds((representedSeconds) => {

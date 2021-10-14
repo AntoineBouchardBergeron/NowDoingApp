@@ -33,18 +33,14 @@ const ActivitySelectionPanel = (props: Props) => {
   i18n.locale = Localization.locale;
 
   return (
-    <View style={styles().mainActivity}>
+    <>
       {!updatePanel && (
-        <>
-          <ActivityListSelectorPanel
-            onHideEvent={props.onHideEvent}
-            showUpdatePanel={() =>
-              showUpdatePanel((updatePanel) => !updatePanel)
-            }
-          />
-          <ActivityPreview onSelectEvent={props.onHideEvent} />
-        </>
+        <ActivityListSelectorPanel
+          onHideEvent={props.onHideEvent}
+          showUpdatePanel={() => showUpdatePanel((updatePanel) => !updatePanel)}
+        />
       )}
+      {!updatePanel && <ActivityPreview onSelectEvent={props.onHideEvent} />}
 
       {updatePanel && (
         <ActivityPanelEditor
@@ -56,7 +52,7 @@ const ActivitySelectionPanel = (props: Props) => {
           onHideEvent={() => showUpdatePanel((updatePanel) => !updatePanel)}
         />
       )}
-    </View>
+    </>
   );
 };
 

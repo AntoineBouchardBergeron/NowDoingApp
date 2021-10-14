@@ -1,5 +1,12 @@
 import React, { ReactNode } from "react";
-import { View, Text, Button, SafeAreaView, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  SafeAreaView,
+  ScrollView,
+  useWindowDimensions,
+} from "react-native";
 import { Time } from "../Classes/Time";
 import styles from "../Style/Styles";
 import { useActiveActivity } from "./ActivityProvider";
@@ -28,48 +35,62 @@ const ActivityPreview = (props: Props) => {
   i18n.translations = { fr, en };
   i18n.locale = Localization.locale;
 
+  const maxWidth = useWindowDimensions().width;
+  const maxHeight = useWindowDimensions().height;
+  const minVal = maxHeight < maxWidth ? maxHeight : maxWidth;
+
   return (
-    <Container>
-      <View>
-        <Text style={styles().titleTextView}>
+    <Container
+      styling={[
+        styles().Container,
+        {
+          height: minVal == maxWidth ? minVal * 0.88 : maxWidth * 0.5,
+        },
+      ]}
+    >
+      <SafeAreaView>
+        <Text style={styles().smallTitle}>
           {i18n.t("TitleActivityPreview")}
         </Text>
-      </View>
-      <SafeAreaView style={styles().SafeAreaActivity}>
         <ScrollView>
-          <View style={styles().ActivityPreview}>
-            <Text style={styles().basicText}>{description}</Text>
-            <View style={{}}>
-              <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
-                <Text style={styles().basicText}>{i18n.t("TimeEstimate")}</Text>
-                <ClockTime time={estimatedTime} />
+          <SafeAreaView style={styles().SafeAreaActivity}>
+            <ScrollView>
+              <View style={styles().ActivityPreview}>
+                <Text style={styles().basicText}>{description}</Text>
+                <View style={{}}>
+                  <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
+                    <Text style={styles().basicText}>
+                      {i18n.t("TimeEstimate")}
+                    </Text>
+                    <ClockTime time={estimatedTime} />
+                  </View>
+                  <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
+                    <Text style={styles().basicText}>
+                      {i18n.t("TimePassed")}
+                    </Text>
+                    <ClockTime time={timePassed} />
+                  </View>
+                  <View style={styles().ClockPreviewView}>
+                    <Text style={styles().smallTitle}>
+                      {i18n.t("TimeLeftClock")}
+                    </Text>
+                    <Clock
+                      clockBackgroundColor={
+                        styles().ActivityPreview.backgroundColor
+                      }
+                      sizeFactor={0.8}
+                    />
+                  </View>
+                </View>
               </View>
-              <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
-                <Text style={styles().basicText}>{i18n.t("TimePassed")}</Text>
-                <ClockTime time={timePassed} />
-              </View>
-              <View style={styles().ClockPreviewView}>
-                <Text style={styles().smallTitle}>
-                  {i18n.t("TimeLeftClock")}
-                </Text>
-                <Clock
-                  clockBackgroundColor={
-                    styles().ActivityPreview.backgroundColor
-                  }
-                  sizeFactor={0.8}
-                />
-              </View>
-            </View>
-          </View>
+            </ScrollView>
+          </SafeAreaView>
         </ScrollView>
-      </SafeAreaView>
-
-      <View style={styles().buttons}>
         <Button
           title={i18n.t("StartActivity")}
           onPress={() => props.onSelectEvent()}
         />
-      </View>
+      </SafeAreaView>
     </Container>
   );
 };

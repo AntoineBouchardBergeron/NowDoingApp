@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { View, ViewProps } from "react-native";
+import { View } from "react-native";
 import styles from "../Style/Styles";
 
 type Props = {

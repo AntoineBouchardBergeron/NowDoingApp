@@ -110,11 +110,10 @@ const MainActivity = (props: Props) => {
             onTimerExpired={timerHasExpiredAlert}
           />
         )}
+        {showActivityPanelEditor && (
+          <ActivitySelectionPanel onHideEvent={showActivityPanelEditorEvent} />
+        )}
       </View>
-
-      {showActivityPanelEditor && (
-        <ActivitySelectionPanel onHideEvent={showActivityPanelEditorEvent} />
-      )}
     </>
   );
 };

@@ -1,5 +1,11 @@
 import React, { ReactNode, useEffect, useState, useRef, Children } from "react";
-import { Image, Pressable, Animated, ScrollView } from "react-native";
+import {
+  Image,
+  Pressable,
+  Animated,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { Svg, Line, Rect } from "react-native-svg";
 import styles from "../Style/Styles";
 import { useTheme } from "./ThemeProvider";
@@ -10,8 +16,9 @@ import { useActiveActivity } from "./ActivityProvider";
 
 type Props = {
   children: ReactNode;
-  svgIcon?: () => Svg
+  svgIcon?: () => Svg;
   panelWidth: number | 250;
+  showPanel: (b: boolean) => void;
 };
 
 const SlidePanel = (props: Props) => {
@@ -35,6 +42,7 @@ const SlidePanel = (props: Props) => {
       duration: 1000,
     }).start(() => {
       setShown(false);
+      props.showPanel(isShown);
     });
   };
 
@@ -43,9 +51,11 @@ const SlidePanel = (props: Props) => {
     if (isAnimating) {
       slideIn();
       setShown(true);
+      props.showPanel(isShown);
     } else {
       slideOut();
     }
+    // }
   }, [isAnimating]);
 
   const basicMenu = () => {
@@ -55,8 +65,8 @@ const SlidePanel = (props: Props) => {
         width="40"
         height="40"
         viewBox="0 0 25 25"
-        fill={colors.clockColors[useActiveActivity().id-1]}
-        stroke={colors.clockColors[useActiveActivity().id-1]}
+        fill={colors.clockColors[useActiveActivity().id - 1]}
+        stroke={colors.clockColors[useActiveActivity().id - 1]}
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -70,32 +80,37 @@ const SlidePanel = (props: Props) => {
 
   return (
     <Animated.ScrollView
-      style={
-        styles().slidingPanel && {
-          transform: [
-            {
-              translateX: animation.interpolate({
-                inputRange: [0, 1],
-                outputRange: [-props.panelWidth, 0],
-              }),
-            },
-          ],
-        }
-      }
+      style={{
+        backgroundColor: colors.backdrop,
+        elevation: 3,
+        width: 300,
+        height: isShown ? "100%" : 50,
+        transform: [
+          {
+            translateX: animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [-props.panelWidth, 0],
+            }),
+          },
+        ],
+      }}
     >
-      <ScrollView style={styles().slidingPanel}>
-        <Pressable 
-        style={{
-          transform:[{ translateX: 260 }]}}
-          onPress={() => {
-            setAnimate((isAnimating) => !isAnimating);
-          }}
-        >
-          {props.svgIcon? props.svgIcon() : basicMenu()}
-          {/* <Menu width={24} height={24} /> */}
-        </Pressable>
-        {isShown && props.children}
-      </ScrollView>
+      <SafeAreaView>
+        <ScrollView style={{}}>
+          <Pressable
+            style={{
+              transform: [{ translateX: props.panelWidth }],
+            }}
+            onPress={() => {
+              setAnimate((isAnimating) => !isAnimating);
+            }}
+          >
+            {props.svgIcon ? props.svgIcon() : basicMenu()}
+            {/* <Menu width={24} height={24} /> */}
+          </Pressable>
+          {isShown && props.children}
+        </ScrollView>
+      </SafeAreaView>
     </Animated.ScrollView>
   );
 };

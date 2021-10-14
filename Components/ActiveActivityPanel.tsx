@@ -37,7 +37,6 @@ const ActiveActivityPanel = (props: Props) => {
       <Text style={styles().title}>{title}</Text>
       <Text style={styles().basicText}>{description}</Text>
       <View style={styles().ViewColumn}>
-        {/* {isActivitySet()} */}
         <View style={styles().buttons}>
           <Button
             title={i18n.t("SelectActivity")}

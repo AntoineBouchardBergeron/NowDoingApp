@@ -3,42 +3,40 @@ import { useTheme } from "../Components/ThemeProvider";
 
 const styles = () => {
   const { colors } = useTheme();
+
+  // const {platform} = usePlatform();
+  const maxWidth = useWindowDimensions().width;
+  const maxHeight = useWindowDimensions().height;
+  const minVal = maxHeight < maxWidth ? maxHeight : maxWidth;
+  const maxVal = maxHeight > maxWidth ? maxHeight : maxWidth;
+
   return StyleSheet.create({
     app: {
+      alignItems: "baseline", // alignItems describes how to align children along the cross axis of their container. It is very similar to justifyContent but instead of applying to the main axis, alignItems applies to the cross axis.
       alignContent: "center",
-      alignSelf: "center",
       flex: 1,
       backgroundColor: colors.background,
-      width: useWindowDimensions().width,
-      height: useWindowDimensions().height,
+      width: "100%",
+      height: "100%",
     },
     mainActivity: {
       position: "absolute",
       backgroundColor: colors.background,
-      flex: 1,
       flexDirection: "column",
-      flexWrap: "wrap",
-      alignSelf: "center",
-      alignItems: "stretch",
-      alignContent: "space-between",
+      flexWrap: maxWidth === minVal ? "nowrap" : "wrap",
+      alignItems: "center",
+      alignContent: "center",
       justifyContent: "space-evenly",
       width: "100%",
       height: "100%",
-      // paddingTop: 20,
     },
-    ActivityPanel: {
+    Container: {
       backgroundColor: colors.secondaryBackground,
       borderRadius: 10,
       padding: 10,
-      justifyContent: "space-evenly",
-      alignContent: "stretch",
-      alignSelf: "stretch",
-      alignItems: "center",
-      // width: "100%",
-      maxWidth: 300,
+      maxWidth: minVal == maxWidth ? minVal * 0.88 : maxWidth * 0.5,
       margin: 5,
-      // flexDirection: `row`,
-      // flex: 1,
+      elevation: 3,
     },
     SafeAreaActivity: {
       backgroundColor: colors.secondaryBackground,
@@ -72,6 +70,7 @@ const styles = () => {
     basicText: {
       color: colors.text,
       padding: 2,
+      marginLeft: 10,
       margin: 2,
       marginBottom: 10,
       fontSize: 12,
@@ -87,11 +86,10 @@ const styles = () => {
       fontSize: 20,
     },
     buttons: {
-      // width: '80%',
-      // flexDirection: 'row',
       padding: 12,
       margin: 12,
       elevation: 5,
+      zIndex: 100,
       maxWidth: 280,
     },
     Timer: {
@@ -100,15 +98,9 @@ const styles = () => {
     },
     ActivityComplete: {
       marginTop: 4,
-      // flex: 1,
       left: "20%",
-      // width: '50%',
-      // flexDirection: 'row-reverse',
     },
     onTopPanel: {
-      // backgroundColor: colors.secondaryBackground,
-      // borderRadius: 10,
-      // padding: 10,
       position: "absolute",
       margin: 15,
       width: "100%",
@@ -122,8 +114,8 @@ const styles = () => {
       width: "100%",
       alignContent: "center",
       alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "center",
+      // alignSelf: "center",
+      // justifyContent: "center",
     },
     ViewColumn: {
       flexDirection: "row",
@@ -142,22 +134,9 @@ const styles = () => {
       flexWrap: "nowrap",
       flexGrow: 0,
       flexShrink: 1,
-      // flexDirection: "row",
-      // flexWrap: "wrap",
-      // width: "100%",
-      // alignContent: "center",
-      // alignSelf: "center",
     },
     settingsPanel: {
-      flex: 1,
-      elevation: 5,
-      zIndex: 1,
-      backgroundColor: "#000",
-    },
-    slidingPanel: {
-      backgroundColor: colors.backdrop,
-      elevation: 3,
-      width: 300,
+      height: 50,
     },
     ActivityPreview: {
       padding: 10,
@@ -167,7 +146,6 @@ const styles = () => {
       justifyContent: "space-evenly",
       flex: 1,
       backgroundColor: colors.tertiaryBackground,
-      // maxWidth: 350,
     },
     ClockPreviewView: {
       alignItems: "center",
@@ -184,7 +162,6 @@ const styles = () => {
       width: "90%",
       maxWidth: "90%",
     },
-    ActivityList: {},
   });
 };
 
