@@ -1,5 +1,5 @@
 import React from "react";
-import { View, SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import ActivityItem from "./ActivityItem";
 import { ReactNode } from "react";
 import { Activities } from "../Types/ActivityList";
@@ -30,7 +30,7 @@ const ActivityList = (props: Props) => {
   });
 
   return (
-    <SafeAreaView style={styles().SafeAreaActivity}>
+    <SafeAreaView style={[styles().ActivityListSelector, styles().SafeAreaActivity]}>
       <ScrollView style={styles().scrollView}>{activities}</ScrollView>
     </SafeAreaView>
   );

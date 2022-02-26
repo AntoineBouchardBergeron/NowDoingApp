@@ -19,6 +19,10 @@ const styles = () => {
       width: "100%",
       height: "100%",
     },
+    navBar: {
+      color: colors.background,
+      backgroundColor: colors.background,
+    },
     mainActivity: {
       position: "absolute",
       backgroundColor: colors.background,
@@ -161,6 +165,9 @@ const styles = () => {
       height: "90%",
       width: "90%",
       maxWidth: "90%",
+    },
+    ActivityListSelector:{
+      maxHeight: minVal*.6
     },
   });
 };

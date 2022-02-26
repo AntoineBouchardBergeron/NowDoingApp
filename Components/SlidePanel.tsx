@@ -65,8 +65,8 @@ const SlidePanel = (props: Props) => {
         width="40"
         height="40"
         viewBox="0 0 25 25"
-        fill={colors.clockColors[useActiveActivity().id - 1]}
-        stroke={colors.clockColors[useActiveActivity().id - 1]}
+        fill={colors.clockColors[useActiveActivity().desiredRepresentation.value]}
+        stroke={colors.clockColors[useActiveActivity().desiredRepresentation.value]}
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"

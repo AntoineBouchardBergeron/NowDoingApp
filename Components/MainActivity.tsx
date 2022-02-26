@@ -78,13 +78,6 @@ const MainActivity = (props: Props) => {
   }
 
   useEffect(() => {
-    console.log(
-      title +
-        "; " +
-        estimatedTime.seconds +
-        " and time updated: " +
-        updateQuantity
-    );
     if (!isTimerPaused && props.onTimerStart) {
       props.onTimerStart();
     } else if (props.onTimerStop) {

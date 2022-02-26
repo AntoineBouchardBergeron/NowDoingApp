@@ -12,14 +12,13 @@ export interface Activity {
   desiredRepresentation: DesiredTimeRepresentation
 }
 
-
 export const BasicActivity: Activity = {
   id: 1,
-  description: 'This is a basic Activity that will never be completed.\nUse to your own discretion. :)',
-  desiredRepresentation: new DesiredTimeRepresentation(1),
-  estimatedTime: new Time(10),
-  status: 'on going',
-  timePassed: new Time(1),
   title: 'Free time',
+  status: 'on going',
+  description: 'This is a basic Activity that will never be completed.\nUse to your own discretion. :)',
+  estimatedTime: new Time(10),
   updateQuantity: 0,
+  timePassed: new Time(1),
+  desiredRepresentation: new DesiredTimeRepresentation(1),
 }

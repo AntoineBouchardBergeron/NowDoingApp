@@ -58,7 +58,7 @@ const ThemeSwitch = () => {
       </>
       <>
         <Text style={style.themeText}>Use device's settings</Text>
-        <CheckBox
+        {/* <CheckBox
           value={isThemeDefault}
           onChange={toggleSwitchAvailability}
           tintColor={"#fff"}
@@ -66,7 +66,7 @@ const ThemeSwitch = () => {
           onFillColor={"#fff"}
           onTintColor={"#fff"}
           tintColors={{ true: colors.clockColors[id - 1], false: colors.text }}
-        />
+        /> */}
       </>
     </View>
   );

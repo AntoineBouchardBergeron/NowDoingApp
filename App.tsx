@@ -1,39 +1,50 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { AppearanceProvider } from "react-native-appearance";
 import { ActivityProvider } from "./Components/ActivityProvider";
 import MainActivity from "./Components/MainActivity";
 import SettingPanel from "./Components/SettingPanel";
 import { ThemeProvider, useTheme } from "./Components/ThemeProvider";
+import changeNavigationBarColor, {
+  hideNavigationBar,
+  showNavigationBar,
+} from "react-native-navigation-bar-color";
 import styles from "./Style/Styles";
 
 export default function App() {
-  const { colors } = useTheme();
+  const { colors, isDark } = useTheme();
   const [timerStarted, setTimerActive] = useState<boolean>(false);
-
-  useEffect(() => {}, [colors]);
 
   const hideSettings = () => {
     setTimerActive(true);
+    // hideNavigationBar();
   };
   const showSettings = () => {
     setTimerActive(false);
+    // showNavigationBar();
   };
+  useEffect(() => {
+    // changeNavigationBarColor(colors.background, !isDark, false);
+  }, [isDark]);
 
   return (
     <AppearanceProvider>
       <ThemeProvider>
         <ActivityProvider>
-          <View style={styles().app}>
-            <StatusBar animated hidden={true} />
+          <SafeAreaView style={styles().app}>
+            <StatusBar
+              animated
+              hidden={true}
+              style={isDark ? "dark" : "light"}
+            />
             <MainActivity
               onTimerStart={() => hideSettings()}
               onTimerStop={() => showSettings()}
             />
             <SettingPanel isActive={!timerStarted} />
             {/* SETTINGS PANEL IsShown APPEARS ON START TIMER WHEN IT SHOULD NOT */}
-          </View>
+          </SafeAreaView>
         </ActivityProvider>
       </ThemeProvider>
     </AppearanceProvider>

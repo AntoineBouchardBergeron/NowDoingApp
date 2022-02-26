@@ -31,7 +31,7 @@ const fr: language = {
   StartActivity: "Démarrer l'activité",
   TitleLabel: `Nom de l'activité :`,
   DescriptionLabel: `Description de l'activité :`,
-  TitleActivityPreview: `Visialisation de l,activité`,
+  TitleActivityPreview: `Visualisation de l'activité`,
   TimeEstimate: "Temps estimé pour l'activité",
   TimePassed: "Temps écoulé sur l'activité",
   TimeLeftClock: "Représentation de l'horloge",

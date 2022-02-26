@@ -1,15 +1,11 @@
 import React, { ReactNode } from "react";
-import { SafeAreaView, useWindowDimensions, Text, Button, View } from "react-native";
+import { useWindowDimensions, Text, Button, View } from "react-native";
 import Container from "./Container";
 import ActivityList from "./ActivityList";
 import styles from "../Style/Styles";
 import { useActiveActivity } from "./ActivityProvider";
-import {
-  SAMPLE_ACTIVITY_ARRAY,
-  SAMPLE_ACTIVITIES,
-  SAMPLE_LOTS_ACTIVITIES,
-} from "../Types/ActivityList";
-import CustomView from "./CustomView";
+import { SAMPLE_LOTS_ACTIVITIES } from "../Types/ActivityList";
+import { loadLocalActivityList } from "../Helpers/fetch";
 
 import i18n from "i18n-js";
 import { fr, en } from "../i18n/translation";
@@ -24,18 +20,26 @@ const ActivityListSelectorPanel = (props: Props) => {
   i18n.fallbacks = true;
   i18n.translations = { fr, en };
   i18n.locale = localization.locale;
+  
+  // const activities = loadLocalActivityList();
 
   const { setActiveActivity } = useActiveActivity();
   const changeSelection = (index: number) => {
     setActiveActivity(SAMPLE_LOTS_ACTIVITIES.activities[index - 1]);
   };
 
+
   const maxWidth = useWindowDimensions().width;
   const maxHeight = useWindowDimensions().height;
   const minVal = maxHeight < maxWidth ? maxHeight : maxWidth;
 
   return (
-    <Container styling={[styles().Container, { height: minVal == maxWidth ? maxHeight * 0.40 : maxHeight * 0.9 }]}>
+    <Container
+      styling={[
+        styles().Container,
+        { height: minVal == maxWidth ? maxHeight * 0.4 : maxHeight * 0.9 },
+      ]}
+    >
       <Text style={styles().title}>{i18n.t("SelectActivity")}</Text>
       <ActivityList
         activities={SAMPLE_LOTS_ACTIVITIES}
