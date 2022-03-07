@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import styles from "../Style/Styles";
-import { Activity } from "../Types/Activity";
+import { Activity } from "../Classes/Activity";
 
 type Props = {
   activity: Activity;

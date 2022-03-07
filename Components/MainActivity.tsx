@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, Vibration, View } from "react-native";
 import ActiveActivityPanel from "./ActiveActivityPanel";
 import ActiveTimer from "./ActiveTimer";
-import { useActiveActivity } from "./ActivityProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 import ActivitySelectionPanel from "./ActivitySelectionPanel";
 import ActivityPanelEditor from "./ActivityPanelEditor";
 import styles from "../Style/Styles";
-import { BasicActivity } from "../Types/Activity";
+import { BasicActivity } from "../Classes/Activity";
 import i18n from "i18n-js";
 import * as Localization from "expo-localization";
 import { fr, en } from "../i18n/translation";
+import { useTimer } from "../Providers/TimeProvider";
+import { Time } from "../Classes/Time";
 
 type Props = {
   onTimerStart?: () => void;
@@ -17,9 +19,9 @@ type Props = {
 };
 
 const MainActivity = (props: Props) => {
-  const { title, estimatedTime, updateQuantity, setActiveActivity } =
+  const { activity, setActiveActivity } =
     useActiveActivity();
-  const [isTimerPaused, setTimerPause] = useState<boolean>(true);
+  const { isTimerActive, activateTimer } = useTimer();
 
   const [showActivityPanelEditor, setShowActivityPanelEditor] =
     useState<boolean>(false);
@@ -32,12 +34,8 @@ const MainActivity = (props: Props) => {
     setShowActivityPanelEditor((b) => !b);
   }
 
-  function togglePause() {
-    setTimerPause((isTimerPaused) => !isTimerPaused);
-  }
-
   function completeActiveActivity() {
-    setTimerPause((isTimerPaused) => true);
+    activateTimer(false);
     Alert.alert(i18n.t("ActivityFinishedQuestion"), "", [
       {
         text: i18n.t("y"),
@@ -56,7 +54,7 @@ const MainActivity = (props: Props) => {
   }
 
   function timerHasExpiredAlert() {
-    setTimerPause((isTimerPaused) => true);
+    activateTimer(false);
     Alert.alert(
       i18n.t("ActivityFinishedQuestion"),
       i18n.t("MoreTimeToCompleteQuestion"),
@@ -75,33 +73,20 @@ const MainActivity = (props: Props) => {
         },
       ]
     );
+    Vibration.vibrate(1500);
   }
-
-  useEffect(() => {
-    if (!isTimerPaused && props.onTimerStart) {
-      props.onTimerStart();
-    } else if (props.onTimerStop) {
-      props.onTimerStop();
-    }
-  }, [isTimerPaused]);
 
   return (
     <>
       <View style={styles().mainActivity}>
         {!showActivityPanelEditor && (
           <ActiveActivityPanel
-            isPaused={isTimerPaused}
-            onPauseEvent={togglePause}
             onSelectActivityEvent={showActivityPanelEditorEvent}
-            onTimerStopped={completeActiveActivity}
           />
         )}
 
         {!showActivityPanelEditor && (
-          <ActiveTimer
-            toggle={isTimerPaused}
-            onTimerExpired={timerHasExpiredAlert}
-          />
+          <ActiveTimer onTimerExpired={timerHasExpiredAlert} />
         )}
         {showActivityPanelEditor && (
           <ActivitySelectionPanel onHideEvent={showActivityPanelEditorEvent} />

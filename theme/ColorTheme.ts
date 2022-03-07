@@ -1,5 +1,3 @@
-import { useActiveActivity } from "../Components/ActivityProvider"
-
 const ColorConfiguration: string[] = ['#f08080', '#ffa07a', '#ff7f50']
 const DarkColorConfiguration: string[] = ['#D06060', '#DD805A', '#DD5f30']
 const TrackColorConfiguration: string[] = ['#804040', '#8D603A', '#8D3f10']

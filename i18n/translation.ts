@@ -20,6 +20,8 @@ type language = {
   ok: string;
   cancel: string;
   close: string;
+  minutes: string;
+  hours: string;
 };
 
 const fr: language = {
@@ -37,14 +39,15 @@ const fr: language = {
   TimeLeftClock: "Représentation de l'horloge",
   ActivityFinishedQuestion: `Est-ce que l'activité est terminée?`,
   TimerExpired: "Temps écoulé!",
-  MoreTimeToCompleteQuestion:
-    "Avez-vous besoin de plus de temps pour terminer l'activité?",
+  MoreTimeToCompleteQuestion: "Avez-vous besoin de plus de temps pour terminer l'activité?",
   ModifyActivity: "Modifier l'activité sélectionnée",
   y: "Oui",
   n: "Non",
   ok: "OK",
   cancel: "Annuler",
   close: "Fermer la fenêtre",
+  minutes: "minutes",
+  hours: "heures"
 };
 
 const en: language = {
@@ -62,14 +65,15 @@ const en: language = {
   TimeLeftClock: "Timer Representation",
   ActivityFinishedQuestion: "Is the activity finished?",
   TimerExpired: "Time is up!",
-  MoreTimeToCompleteQuestion:
-    "Do you need more time to complete the current activity?",
+  MoreTimeToCompleteQuestion: "Do you need more time to complete the current activity?",
   ModifyActivity: "Modify activity",
   y: "Yes",
   n: "No",
   ok: "Okay",
   cancel: "Cancel",
   close: "Close",
+  minutes: "minutes",
+  hours: "hours"
 };
 
 export { fr, en };

@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { Time } from "../Classes/Time";
 import styles from "../Style/Styles";
-import { useActiveActivity } from "./ActivityProvider";
-import { useTheme } from "./ThemeProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
+import { useTheme } from "../Providers/ThemeProvider";
 
 import i18n from "i18n-js";
 import { fr, en } from "../i18n/translation";
@@ -29,7 +29,7 @@ const ActivityPreview = (props: Props) => {
   // isActivityReccuring? (as if it was saved as a template)
   // Clock reprensetation of timeEstimated and TimePassedOnActivity
 
-  const { description, estimatedTime, timePassed } = useActiveActivity();
+  const { activity } = useActiveActivity();
 
   i18n.fallbacks = true;
   i18n.translations = { fr, en };
@@ -56,19 +56,19 @@ const ActivityPreview = (props: Props) => {
           <SafeAreaView style={styles().SafeAreaActivity}>
             <ScrollView>
               <View style={styles().ActivityPreview}>
-                <Text style={styles().basicText}>{description}</Text>
+                <Text style={styles().basicText}>{activity.description}</Text>
                 <View style={{}}>
                   <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
                     <Text style={styles().basicText}>
                       {i18n.t("TimeEstimate")}
                     </Text>
-                    <ClockTime time={estimatedTime} />
+                    <ClockTime time={activity.estimatedTime} />
                   </View>
                   <View style={{ flexWrap: "nowrap", flexDirection: "row" }}>
                     <Text style={styles().basicText}>
                       {i18n.t("TimePassed")}
                     </Text>
-                    <ClockTime time={timePassed} />
+                    <ClockTime time={activity.timePassed} />
                   </View>
                   <View style={styles().ClockPreviewView}>
                     <Text style={styles().smallTitle}>

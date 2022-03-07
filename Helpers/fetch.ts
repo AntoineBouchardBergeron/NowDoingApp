@@ -1,5 +1,4 @@
 import * as RNFS from "react-native-fs";
-import { Activities } from "../Types/ActivityList";
 
 const path = RNFS.DocumentDirectoryPath + "/activities.json";
 
@@ -17,11 +16,8 @@ const loadLocalActivityList = () => {
     });
 };
 
-const saveLocalActivityList = (activities: Activities) => {
-  return RNFS.writeFile(path, JSON.stringify(activities));
-};
 
-export { loadFromFile, loadLocalActivityList, saveLocalActivityList };
+export { loadFromFile, loadLocalActivityList };
 
 // const fetch = ("url to image").then((resp) => {
 //     return resp.blob();

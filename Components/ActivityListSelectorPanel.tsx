@@ -3,8 +3,7 @@ import { useWindowDimensions, Text, Button, View } from "react-native";
 import Container from "./Container";
 import ActivityList from "./ActivityList";
 import styles from "../Style/Styles";
-import { useActiveActivity } from "./ActivityProvider";
-import { SAMPLE_LOTS_ACTIVITIES } from "../Types/ActivityList";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 import { loadLocalActivityList } from "../Helpers/fetch";
 
 import i18n from "i18n-js";
@@ -12,7 +11,7 @@ import { fr, en } from "../i18n/translation";
 import * as localization from "expo-localization";
 
 type Props = {
-  onHideEvent: () => void;
+  showCreatePanel: () => void;
   showUpdatePanel: () => void;
 };
 
@@ -20,36 +19,33 @@ const ActivityListSelectorPanel = (props: Props) => {
   i18n.fallbacks = true;
   i18n.translations = { fr, en };
   i18n.locale = localization.locale;
-  
+
   // const activities = loadLocalActivityList();
 
-  const { setActiveActivity } = useActiveActivity();
+  const { setActiveActivity, activities } = useActiveActivity();
   const changeSelection = (index: number) => {
-    setActiveActivity(SAMPLE_LOTS_ACTIVITIES.activities[index - 1]);
+    setActiveActivity(activities[index - 1]);
   };
+  const { width, height } = useWindowDimensions();
 
-
-  const maxWidth = useWindowDimensions().width;
-  const maxHeight = useWindowDimensions().height;
-  const minVal = maxHeight < maxWidth ? maxHeight : maxWidth;
+  const minVal = height < width ? height : width;
 
   return (
     <Container
       styling={[
         styles().Container,
-        { height: minVal == maxWidth ? maxHeight * 0.4 : maxHeight * 0.9 },
+        { height: minVal == width ? height * 0.4 : height * 0.9 },
       ]}
     >
       <Text style={styles().title}>{i18n.t("SelectActivity")}</Text>
       <ActivityList
-        activities={SAMPLE_LOTS_ACTIVITIES}
         onSelection={changeSelection}
       />
 
       <View style={styles().ViewRow}>
         <Button
           title={i18n.t("CreateNewActivity")}
-          onPress={() => props.onHideEvent()}
+          onPress={() => props.showCreatePanel()}
         />
         <Button
           title={i18n.t("ModifyActivity")}

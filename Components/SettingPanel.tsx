@@ -3,14 +3,14 @@ import { View, Animated } from "react-native";
 import ThemeSwitch from "../Theme/ThemeSwitch";
 import SlidePanel from "../Components/SlidePanel";
 import styles from "../Style/Styles";
+import { useTimer } from "../Providers/TimeProvider";
 
-type Props = { isActive: boolean };
-
-const SettingPanel = (props: Props) => {
-  const [isShowingPanel, setShowingPanel] = useState<boolean>(props.isActive);
+const SettingPanel = () => {
+  const { isTimerActive } = useTimer();
+  const [expandPanel, setExpandPanel] = useState<boolean>(true);
   const animation = useRef(new Animated.Value(0)).current;
 
-  const slideIn = () => {
+  const ShowButton = () => {
     Animated.timing(animation, {
       toValue: 1,
       duration: 1200,
@@ -18,28 +18,28 @@ const SettingPanel = (props: Props) => {
     }).start();
   };
 
-  const slideOut = () => {
+  const HideButton = () => {
     Animated.timing(animation, {
       toValue: 0,
       duration: 1200,
       useNativeDriver: true,
-    }).start(() => setShowingPanel(false));
+    }).start();
   };
 
   useEffect(() => {
-    if (props.isActive) {
-      slideIn();
-      setShowingPanel(true);
+    console.log("This goes with: " + isTimerActive);
+    if (!isTimerActive) {
+      ShowButton();
     } else {
-      slideOut();
+      HideButton();
     }
-  }, [props.isActive]);
+  }, [isTimerActive]);
 
   return (
     <Animated.View
       style={{
         alignItems: "baseline",
-        height: !isShowingPanel && props.isActive ? "100%" : 40,
+        height: !expandPanel ? 40 :"100%",
         transform: [
           {
             translateY: animation.interpolate({
@@ -52,9 +52,11 @@ const SettingPanel = (props: Props) => {
     >
       <SlidePanel
         panelWidth={260}
-        showPanel={(b: boolean) => setShowingPanel(b)}
+        isExpanded={(expansion) => {
+          setExpandPanel(expansion);
+        }}
       >
-        {props.isActive && <ThemeSwitch />}
+        {!isTimerActive && expandPanel && <ThemeSwitch />}
         {/* <StatsPanel /> 
           <UserAccountSettings />
           <PremiumOptions />

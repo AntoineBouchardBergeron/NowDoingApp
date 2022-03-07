@@ -8,17 +8,17 @@ import {
 } from "react-native";
 import { Svg, Line, Rect } from "react-native-svg";
 import styles from "../Style/Styles";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../Providers/ThemeProvider";
 import Menu from "../assets/menu.svg";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { translate } from "i18n-js";
-import { useActiveActivity } from "./ActivityProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 
 type Props = {
   children: ReactNode;
   svgIcon?: () => Svg;
   panelWidth: number | 250;
-  showPanel: (b: boolean) => void;
+  isExpanded: (b: boolean) => void;
 };
 
 const SlidePanel = (props: Props) => {
@@ -26,6 +26,7 @@ const SlidePanel = (props: Props) => {
   const [isAnimating, setAnimate] = useState<boolean>(false);
   const { colors } = useTheme();
   const animation = useRef(new Animated.Value(0)).current;
+  const {activity} = useActiveActivity();
 
   const slideIn = () => {
     Animated.timing(animation, {
@@ -42,7 +43,7 @@ const SlidePanel = (props: Props) => {
       duration: 1000,
     }).start(() => {
       setShown(false);
-      props.showPanel(isShown);
+      props.isExpanded(false)
     });
   };
 
@@ -51,7 +52,7 @@ const SlidePanel = (props: Props) => {
     if (isAnimating) {
       slideIn();
       setShown(true);
-      props.showPanel(isShown);
+      props.isExpanded(true)
     } else {
       slideOut();
     }
@@ -65,8 +66,12 @@ const SlidePanel = (props: Props) => {
         width="40"
         height="40"
         viewBox="0 0 25 25"
-        fill={colors.clockColors[useActiveActivity().desiredRepresentation.value]}
-        stroke={colors.clockColors[useActiveActivity().desiredRepresentation.value]}
+        fill={
+          colors.clockColors[activity.desiredRepresentation.value]
+        }
+        stroke={
+          colors.clockColors[activity.desiredRepresentation.value]
+        }
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -84,7 +89,7 @@ const SlidePanel = (props: Props) => {
         backgroundColor: colors.backdrop,
         elevation: 3,
         width: 300,
-        height: isShown ? "100%" : 50,
+        height: !isShown ? 50 : "100%",
         transform: [
           {
             translateX: animation.interpolate({

@@ -2,36 +2,37 @@ import React from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import ActivityItem from "./ActivityItem";
 import { ReactNode } from "react";
-import { Activities } from "../Types/ActivityList";
-import { useActiveActivity } from "./ActivityProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 import styles from "../Style/Styles";
+import { Activity } from "../Classes/Activity";
 
 type Props = {
-  activities: Activities;
   onSelection: (index: number) => void;
 };
 
 const ActivityList = (props: Props) => {
-  const activities: ReactNode[] = [];
+  const activityList: ReactNode[] = [];
 
-  const { id } = useActiveActivity();
+  const { activity, activities } = useActiveActivity();
 
-  props.activities.activities.forEach((activity) => {
-    activities.push(
+  activities.forEach((a:Activity) => {
+    activityList.push(
       <ActivityItem
-        activity={activity}
-        key={activity.id}
-        isSelected={id === activity.id}
+        activity={a}
+        key={a.id}
+        isSelected={activity.id === a.id}
         onPress={() => {
-          props.onSelection(activity.id);
+          props.onSelection(a.id);
         }}
       />
     );
   });
 
   return (
-    <SafeAreaView style={[styles().ActivityListSelector, styles().SafeAreaActivity]}>
-      <ScrollView style={styles().scrollView}>{activities}</ScrollView>
+    <SafeAreaView
+      style={[styles().ActivityListSelector, styles().SafeAreaActivity]}
+    >
+      <ScrollView style={styles().scrollView}>{activityList}</ScrollView>
     </SafeAreaView>
   );
 };

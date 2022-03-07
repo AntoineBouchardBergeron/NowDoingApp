@@ -1,47 +1,47 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Time } from "../Classes/Time";
 import Clock from "./Clock";
-import { useTheme } from "./ThemeProvider";
-import { useActiveActivity } from "./ActivityProvider";
+import { useTheme } from "../Providers/ThemeProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 import Container from "../Components/Container";
+import { useTimer } from "../Providers/TimeProvider";
 type Props = {
-  toggle: boolean;
-  // onActivityComplete: () => void
   onTimerExpired: () => void;
 };
 
 const ActiveTimer = (props: Props) => {
-  const { timePassed, estimatedTime, desiredRepresentation } =
+  const { isTimerActive, activateTimer } = useTimer();
+  const {activity } =
     useActiveActivity();
   const countdownAmount = useRef<number>(0);
   const [updateActivityTime, setUpdateActivityTime] = useState<Time>(
-    new Time(timePassed.seconds)
+    new Time(activity.timePassed.seconds)
   );
 
   function tickDown() {
-    return new Time(estimatedTime.seconds - updateActivityTime.seconds);
+    return new Time(activity.estimatedTime.seconds - updateActivityTime.seconds);
   }
 
   useEffect(() => {
     clearInterval(countdownAmount.current);
-    if (tickDown().seconds <= 0 && !props.toggle) {
+    if (tickDown().seconds <= 0 && isTimerActive) {
       props.onTimerExpired();
       return;
     }
-    if (!props.toggle) {
+    if (isTimerActive) {
       countdownAmount.current = window.setInterval(() => {
         setUpdateActivityTime((updateActivityTime) => {
           return updateActivityTime.tick();
         });
       }, 1000);
     }
-  }, [props.toggle, countdownAmount.current]);
+  }, [isTimerActive, countdownAmount.current]);
 
   return (
     <Container>
       <Clock
         representedTime={tickDown()}
-        timeRepresentation={desiredRepresentation.value}
+        timeRepresentation={activity.desiredRepresentation.value}
         clockBackgroundColor={useTheme().colors.secondaryBackground}
         clockColor={useTheme().colors.clockColors}
       />

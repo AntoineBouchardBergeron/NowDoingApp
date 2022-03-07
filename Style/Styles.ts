@@ -1,5 +1,5 @@
 import { StyleSheet, useWindowDimensions } from "react-native";
-import { useTheme } from "../Components/ThemeProvider";
+import { useTheme } from "../Providers/ThemeProvider";
 
 const styles = () => {
   const { colors } = useTheme();

@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, TextInput as RNTextInput, StyleSheet } from "react-native";
-import { useTheme } from "./ThemeProvider";
-import { useActiveActivity } from "./ActivityProvider";
+import {
+  View,
+  Text,
+  TextInput as RNTextInput,
+  StyleSheet,
+  KeyboardTypeOptions,
+} from "react-native";
+import { useTheme } from "../Providers/ThemeProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 
 type Props = {
   defaultValue: string;
   label: string;
   isOneLine: boolean;
+  keyboardType: KeyboardTypeOptions | undefined;
   onTextChangeEvent: (text: string) => void;
 };
 
@@ -14,7 +21,7 @@ const TextInput = (props: Props) => {
   const [text, setText] = useState<string>(props.defaultValue);
   const { colors } = useTheme();
 
-  const { id } = useActiveActivity();
+  const { activity } = useActiveActivity();
   // const { activeClockRepresentation } = useClockRepresentation()
 
   function updateText(input: string) {
@@ -40,7 +47,7 @@ const TextInput = (props: Props) => {
       borderColor: colors.textInputBackground,
     },
     LabelStyle: {
-      color: colors.clockColors[id - 1],
+      color: colors.clockColors[activity.id - 1],
       fontSize: 10,
     },
   });
@@ -52,6 +59,7 @@ const TextInput = (props: Props) => {
       )}
       <RNTextInput
         style={style.InputStyle}
+        keyboardType={props.keyboardType}
         value={text}
         onFocus={() => {
           if (text === props.defaultValue) {

@@ -10,7 +10,7 @@ export interface Theme {
 
 export const ThemeContext = React.createContext<Theme>({
   isDark: true,
-  colors: ligthTheme,
+  colors: darkTheme,
   setScheme: () => {},
 })
 

@@ -8,7 +8,6 @@ type Props = {
 };
 
 const ClockTime = (props: Props) => {
-  // if(props)
   return (
     <Text style={styles().basicText}>
       {" " + props.time.hours}:

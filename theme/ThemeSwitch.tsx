@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, Switch, StyleSheet, View, ColorValue } from "react-native";
-import { useTheme } from "../Components/ThemeProvider";
+import { useTheme } from "../Providers/ThemeProvider";
 import CheckBox from "@react-native-community/checkbox";
-import { useActiveActivity } from "../Components/ActivityProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 import styles from "../Style/Styles";
 
 const ThemeSwitch = () => {

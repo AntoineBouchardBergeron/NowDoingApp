@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { DesiredTimeRepresentation } from "../Classes/DesiredTimeRepresentation";
 import { Time } from "../Classes/Time";
-import { useActiveActivity } from "./ActivityProvider";
-import { useTheme } from "./ThemeProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
+import { useTheme } from "../Providers/ThemeProvider";
 
 type Props = {
   representedTime?: Time;
@@ -56,8 +56,7 @@ const getTransform = (position: number) => {
 };
 
 const Clock = (props: Props) => {
-  const { timePassed, estimatedTime, desiredRepresentation } =
-    useActiveActivity();
+  const { activity } = useActiveActivity();
 
   const { colors } = useTheme();
   const [sizeFactor, setSizeFactor] = useState<number>(() =>
@@ -68,12 +67,12 @@ const Clock = (props: Props) => {
   const [representedSeconds, setRepresentedSeconds] = useState<number>(
     props.representedTime
       ? props.representedTime.seconds
-      : Time.timeDifference(estimatedTime, timePassed).seconds
+      : Time.timeDifference(activity.estimatedTime, activity.timePassed).seconds
   );
   const [timeEstimated, setTimeEstimated] = useState<number>(
     props.timeRepresentation
       ? props.timeRepresentation
-      : desiredRepresentation.value
+      : activity.desiredRepresentation.value
   );
   const [alpha, setAlpha] = useState<number>(
     representedSeconds / getTotalTime(timeEstimated)
@@ -83,7 +82,7 @@ const Clock = (props: Props) => {
       props.clockColor ? props.clockColor : colors.clockColors,
       props.timeRepresentation
         ? props.timeRepresentation
-        : desiredRepresentation.value
+        : activity.desiredRepresentation.value
     )
   );
   const [backgroundClockColor, setBackgroundClockColor] = useState<string>(
@@ -99,19 +98,20 @@ const Clock = (props: Props) => {
     setRepresentedSeconds((representedSeconds) => {
       return props.representedTime
         ? props.representedTime.seconds
-        : Time.timeDifference(estimatedTime, timePassed).seconds;
+        : Time.timeDifference(activity.estimatedTime, activity.timePassed)
+            .seconds;
     });
     setTimeEstimated((timeEstimated) =>
       props.timeRepresentation
         ? props.timeRepresentation
-        : desiredRepresentation.value
+        : activity.desiredRepresentation.value
     );
     setClockColour((clockColour) => {
       return getColorConfiguration(
         props.clockColor ? props.clockColor : colors.clockColors,
         props.timeRepresentation
           ? props.timeRepresentation
-          : desiredRepresentation.value
+          : activity.desiredRepresentation.value
       );
     });
     setBackgroundClockColor((clockBackgroundColor) =>

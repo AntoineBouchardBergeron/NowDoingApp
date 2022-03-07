@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Button, SafeAreaView, ScrollView } from "react-native";
-import {
-  SAMPLE_ACTIVITIES,
-  SAMPLE_ACTIVITY_ARRAY,
-} from "../Types/ActivityList";
 import ActivityList from "./ActivityList";
 import ActivityPreview from "./ActivityPreview";
 import ActivityPanelEditor from "./ActivityPanelEditor";
 import CustomView from "./CustomView";
-import { useActiveActivity } from "./ActivityProvider";
+import { useActiveActivity } from "../Providers/ActivityProvider";
 import styles from "../Style/Styles";
 import i18n from "i18n-js";
 import { fr, en } from "../i18n/translation";
@@ -23,9 +19,9 @@ type Props = {
 const ActivitySelectionPanel = (props: Props) => {
   const [updatePanel, showUpdatePanel] = useState<boolean>(false);
   const [createNewActivity, setCreateNewActivity] = useState<boolean>(false);
-  const { setActiveActivity } = useActiveActivity();
+  const { setActiveActivity, activities } = useActiveActivity();
   const changeSelection = (index: number) => {
-    setActiveActivity(SAMPLE_ACTIVITY_ARRAY[index - 1]);
+    setActiveActivity(activities[index - 1]);
   };
 
   i18n.fallbacks = true;
@@ -36,8 +32,14 @@ const ActivitySelectionPanel = (props: Props) => {
     <>
       {!updatePanel && (
         <ActivityListSelectorPanel
-          onHideEvent={props.onHideEvent}
-          showUpdatePanel={() => showUpdatePanel((updatePanel) => !updatePanel)}
+          showCreatePanel={() => {
+            showUpdatePanel((updatePanel) => !updatePanel);
+            setCreateNewActivity(true);
+          }}
+          showUpdatePanel={() => {
+            showUpdatePanel((updatePanel) => !updatePanel);
+            setCreateNewActivity(false);
+          }}
         />
       )}
       {!updatePanel && <ActivityPreview onSelectEvent={props.onHideEvent} />}
@@ -49,6 +51,7 @@ const ActivitySelectionPanel = (props: Props) => {
               ? i18n.t("CreateNewActivity")
               : i18n.t("EditActivity")
           }
+          editActivity={createNewActivity}
           onHideEvent={() => showUpdatePanel((updatePanel) => !updatePanel)}
         />
       )}
